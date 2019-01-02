@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.bol.game.domain.GameState;
 import com.bol.game.domain.Pit;
 import com.bol.game.domain.PitType;
 import com.bol.game.domain.Player;
@@ -31,13 +32,20 @@ public class GameEngineTests {
 	}
 
 	@Test
-	public void whenSetNextTurn_isNextPlayerTurn() {
+	public void whenPlayNextTurn_lastStoneInOwnBigPit_getNewTurn() {
 		Turn turn = new Turn(Player.PLAYER_1, regularPitPlayer1);
 		gameEngine.playNextTurn(turn);
-		assertThat(gameEngine.getGame().getNextTurn()).as("Next Player Turn").isEqualTo(Player.PLAYER_2);
+		assertThat(gameEngine.getGame().getNextTurn()).as("Same Player Turn as falls in own large pit").isEqualTo(Player.PLAYER_1);
 
 	}
 	
+	@Test
+	public void whenPlayNextTurn_isNextPlayerTurn() {
+		Turn turn = new Turn(Player.PLAYER_2, gameEngine.getGame().getBoard().getPits().get(8));
+		gameEngine.playNextTurn(turn);
+		assertThat(gameEngine.getGame().getNextTurn()).as("Is next Player turn").isEqualTo(Player.PLAYER_1);
+
+	}
 	
 	@Test
 	public void whenPlayNextTurn_StonesAddedToNextPits() {
@@ -82,6 +90,27 @@ public class GameEngineTests {
 		assertThat(stonesCountInpit6).as("Pit 6 should have 1 Stones").isEqualTo(1);
 		assertThat(stonesCountInpit7).as("Pit 7 should have 7 Stones").isEqualTo(7);
 	}
+	
+	@Test
+	public void whenPlayNextTurnFormPit0_with13Stones_shouldHave1Stone() {
+		Turn turn = new Turn(Player.PLAYER_1,regularPitPlayer1);
+		List<Pit> pits = gameEngine.getGame().getBoard().getPits();
+		pits.get(0).setStones(13);
+		gameEngine.playNextTurn(turn);
+		int stonesCountInpit0 = pits.get(0).getStones();
+		assertThat(stonesCountInpit0).as("Pit 0 should have 1 Stones").isEqualTo(1);
+	}
+	
+	@Test
+	public void whenPlayNextTurnFormPit0_with12Stones_shouldHaveNoStones() {
+		Turn turn = new Turn(Player.PLAYER_1,regularPitPlayer1);
+		List<Pit> pits = gameEngine.getGame().getBoard().getPits();
+		pits.get(0).setStones(12);
+		gameEngine.playNextTurn(turn);
+		int stonesCountInpit0 = pits.get(0).getStones();
+		assertThat(stonesCountInpit0).as("Pit 0 should have 0 Stones").isEqualTo(0);
+	}
+	
 	
 	@Test
 	public void whenPlayNextTurnFormPit1_Pit7ShouldHave7Stones() {
@@ -169,5 +198,19 @@ public class GameEngineTests {
 	public void pitHasNoStones() {
 		gameEngine.takeStones(regularPitPlayer1.getId());
 		assertThat(gameEngine.pitHasStones(regularPitPlayer1.getId())).isFalse();
+	}
+	
+	@Test
+	public void whenPlayNextTurn_GameEnds() {
+		Turn turn = new Turn(Player.PLAYER_1,new Pit(5, Player.PLAYER_1, 7, PitType.REGULAR, 6));
+		List<Pit> pits = gameEngine.getGame().getBoard().getPits();
+		pits.get(0).setStones(0);
+		pits.get(1).setStones(0);
+		pits.get(2).setStones(0);
+		pits.get(3).setStones(0);
+		pits.get(4).setStones(0);
+		pits.get(5).setStones(1);
+		gameEngine.playNextTurn(turn);
+		assertThat(gameEngine.getGame().getState()).as("The game is Finished").isEqualTo(GameState.FINISHED);
 	}
 }
