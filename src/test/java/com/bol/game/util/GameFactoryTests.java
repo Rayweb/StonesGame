@@ -16,16 +16,14 @@ public class GameFactoryTests {
 
 	@Test
 	public void whenNewGameIsCreated_GameShouldNotBeNull() {
-		GameFactory gf = new GameFactory();
-		Game game = gf.newGame();
+		Game game = GameFactory.newGame();
 		assertNotNull("The Game should not be null", game);
 		assertThat(game).isNotNull();
 	}
 
 	@Test
 	public void whenNewGameIsCreated_GameStateIsReady() {
-		GameFactory gf = new GameFactory();
-		Game game = gf.newGame();
+		Game game = GameFactory.newGame();
 		GameState expected = GameState.READY;
 		GameState actual = game.getState();
 		assertEquals("The GameState property should be READY", expected, actual);
@@ -33,8 +31,7 @@ public class GameFactoryTests {
 
 	@Test
 	public void whenNewGameIsCreated_IsPlayer1Turn() {
-		GameFactory gf = new GameFactory();
-		Game game = gf.newGame();
+		Game game = GameFactory.newGame();
 		Player expected = Player.PLAYER_1;
 		Player actual = game.getNextTurn();
 		assertEquals("The NextTurn property should be PLAYER_1", expected, actual);
@@ -42,8 +39,7 @@ public class GameFactoryTests {
 	
 	@Test
 	public void whenNewGameIsCreated_BoardHas14Pits() {
-		GameFactory gf = new GameFactory();
-		Game game = gf.newGame();
+		Game game = GameFactory.newGame();
 		Integer expected = 14;
 		Integer actual = game.getBoard().getPits().size();
 		assertEquals("The Game Board should have 14 pits", expected, actual);
@@ -51,8 +47,7 @@ public class GameFactoryTests {
 	
 	@Test
 	public void whenNewGameIsCreated_RegularPitsHave6Stones() {
-		GameFactory gf = new GameFactory();
-		Game game = gf.newGame();
+		Game game = GameFactory.newGame();
 		Integer expected = 6;
 		assertEquals("The Pit 0 should have 6 Stones", expected, game.getBoard().getPits().get(0).getStones());
 		assertEquals("The Pit 1 should have 6 Stones", expected, game.getBoard().getPits().get(1).getStones());
@@ -70,8 +65,7 @@ public class GameFactoryTests {
 	
 	@Test
 	public void whenNewGameIsCreated_LargePitsHave0_Stones() {
-		GameFactory gf = new GameFactory();
-		Game game = gf.newGame();
+		Game game = GameFactory.newGame();
 		Integer expected = 0;
 		assertEquals("The Large Pit 6 should have 0 Stones", expected, game.getBoard().getPits().get(6).getStones());
 		assertEquals("The Large Pit 13 should have 0 Stones", expected, game.getBoard().getPits().get(13).getStones());
@@ -79,8 +73,7 @@ public class GameFactoryTests {
 	
 	@Test
 	public void whenNewGameIsCreated_Player1_OnwsFirst6Pits() {
-		GameFactory gf = new GameFactory();
-		Game game = gf.newGame();
+		Game game = GameFactory.newGame();
 		Player expected = Player.PLAYER_1;
 		assertEquals("The owner of Pit 0 should be Player.PLAYER_1", expected, game.getBoard().getPits().get(0).getOwner());
 		assertEquals("The owner of Pit 1 should be Player.PLAYER_1", expected, game.getBoard().getPits().get(1).getOwner());
@@ -93,8 +86,7 @@ public class GameFactoryTests {
 	
 	@Test
 	public void whenNewGameIsCreated_Player2_Onws6Pits() {
-		GameFactory gf = new GameFactory();
-		Game game = gf.newGame();
+		Game game = GameFactory.newGame();
 		Player expected = Player.PLAYER_2;
 		assertEquals("The owner of Pit 7 should be Player.PLAYER_2", expected, game.getBoard().getPits().get(7).getOwner());
 		assertEquals("The owner of Pit 8 should be Player.PLAYER_2", expected, game.getBoard().getPits().get(8).getOwner());
@@ -107,8 +99,7 @@ public class GameFactoryTests {
 	
 	@Test
 	public void whenNewGameIsCreated_Player1_OnwsLargePit6() {
-		GameFactory gf = new GameFactory();
-		Game game = gf.newGame();
+		Game game = GameFactory.newGame();
 		Player expected = Player.PLAYER_1;
 		assertEquals("The owner of Pit 6 should be Player.PLAYER_1", expected, game.getBoard().getPits().get(6).getOwner());
 		assertNotEquals("The owner of Pit 6 should not be Player.PLAYER_2", Player.PLAYER_2, game.getBoard().getPits().get(6).getOwner());
@@ -116,8 +107,7 @@ public class GameFactoryTests {
 	
 	@Test
 	public void whenNewGameIsCreated_Player2_OnwsLargePit13() {
-		GameFactory gf = new GameFactory();
-		Game game = gf.newGame();
+		Game game = GameFactory.newGame();
 		Player expected = Player.PLAYER_2;
 		assertEquals("The owner of Pit 13 should be Player.PLAYER_2", expected, game.getBoard().getPits().get(13).getOwner());
 		assertNotEquals("The owner of Pit 6 should not be Player.PLAYER_1", Player.PLAYER_1, game.getBoard().getPits().get(13).getOwner());
@@ -125,8 +115,7 @@ public class GameFactoryTests {
 	
 	@Test
 	public void whenNewGameIsCreated_Pits_6_and_13_areLarge() {
-		GameFactory gf = new GameFactory();
-		Game game = gf.newGame();
+		Game game = GameFactory.newGame();
 		PitType expected = PitType.LARGE;
 		assertEquals("The 6 should be PitType.LARGE", expected, game.getBoard().getPits().get(6).getType());
 		assertNotEquals("The pit 6 should not be PitType.REGULAR", PitType.REGULAR, game.getBoard().getPits().get(6).getType());

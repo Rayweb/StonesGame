@@ -14,7 +14,7 @@ public class GameFactory {
 
 	private static final Integer INITIAL_STONES = 6;
 
-	public Game newGame() {
+	public static Game newGame() {
 		Game newGame = new Game();
 		newGame.setState(GameState.READY);
 		newGame.setNextTurn(Player.PLAYER_1);
@@ -22,7 +22,7 @@ public class GameFactory {
 		return newGame;
 	}
 
-	public Board setupBoard() {
+	public static Board setupBoard() {
 		Board board = new Board();
 		List<Pit> pits = setupPlayer1Pits();
 		pits.addAll(setupPlayer2Pits());
@@ -30,7 +30,7 @@ public class GameFactory {
 		return board;
 	}
 
-	public List<Pit> setupPlayer1Pits() {
+	public static List<Pit> setupPlayer1Pits() {
 		List<Pit> player1Pits = new ArrayList<Pit>();
 		player1Pits.add(new Pit(0, Player.PLAYER_1, 12, PitType.REGULAR, INITIAL_STONES));
 		player1Pits.add(new Pit(1, Player.PLAYER_1, 11, PitType.REGULAR, INITIAL_STONES));
@@ -42,7 +42,7 @@ public class GameFactory {
 		return player1Pits;
 	}
 
-	public List<Pit> setupPlayer2Pits() {
+	public static List<Pit> setupPlayer2Pits() {
 		List<Pit> player2Pits = new ArrayList<Pit>();
 		player2Pits.add(new Pit(7, Player.PLAYER_2, 5, PitType.REGULAR, INITIAL_STONES));
 		player2Pits.add(new Pit(8, Player.PLAYER_2, 4, PitType.REGULAR, INITIAL_STONES));
