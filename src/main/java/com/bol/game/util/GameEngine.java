@@ -34,11 +34,26 @@ public class GameEngine {
 		if (canCapture(turn)) {
 			captureStones(turn);
 		}
-		if (ifEndOfGame()) {
+		if (endOfGame()) {
+			String winner = getWinner();
+			game.setWinner(winner);
 			game.setState(GameState.FINISHED);
 		}
 		if (playerGetsNewTurn(turn)) {
 			game.setNextTurn(turn.getPlayer());
+		}
+	}
+
+	private String getWinner() {
+		int stonesPlayer1 = game.getBoard().getPits().get(6).getStones();
+		int stonesPlayer2 = game.getBoard().getPits().get(13).getStones();
+		if(stonesPlayer1 == stonesPlayer2) {
+			return "DRAW";
+		}
+		if(stonesPlayer1 > stonesPlayer2) {
+			return Player.PLAYER_1.toString();
+		}else {
+			return Player.PLAYER_2.toString();
 		}
 	}
 
@@ -65,7 +80,7 @@ public class GameEngine {
 		}
 	}
 
-	private boolean ifEndOfGame() {
+	public boolean endOfGame() {
 		long playerStones1 = getStonesOfPlayer(Player.PLAYER_1);
 		long playerStones2 = getStonesOfPlayer(Player.PLAYER_2);
 		if (playerStones1 == 0 || playerStones2 == 0) {

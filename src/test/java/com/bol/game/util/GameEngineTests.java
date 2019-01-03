@@ -7,7 +7,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.bol.game.domain.GameState;
 import com.bol.game.domain.Pit;
 import com.bol.game.domain.PitType;
 import com.bol.game.domain.Player;
@@ -200,17 +199,5 @@ public class GameEngineTests {
 		assertThat(gameEngine.pitHasStones(regularPitPlayer1.getId())).isFalse();
 	}
 	
-	@Test
-	public void whenPlayNextTurn_GameEnds() {
-		Turn turn = new Turn(Player.PLAYER_1,new Pit(5, Player.PLAYER_1, 7, PitType.REGULAR, 6));
-		List<Pit> pits = gameEngine.getGame().getBoard().getPits();
-		pits.get(0).setStones(0);
-		pits.get(1).setStones(0);
-		pits.get(2).setStones(0);
-		pits.get(3).setStones(0);
-		pits.get(4).setStones(0);
-		pits.get(5).setStones(1);
-		gameEngine.playNextTurn(turn);
-		assertThat(gameEngine.getGame().getState()).as("The game is Finished").isEqualTo(GameState.FINISHED);
-	}
+	
 }

@@ -7,4 +7,5 @@ public class Game {
 	public Board board;
 	public GameState state;
 	public Player nextTurn;
+	private String winner;
 }
