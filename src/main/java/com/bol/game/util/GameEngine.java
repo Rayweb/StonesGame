@@ -35,7 +35,7 @@ public class GameEngine {
 		if (ifEndOfGame()) {
 			game.setState(GameState.FINISHED);
 		}
-		if (checkIfNewTurn(turn)) {
+		if (playerGetsNewTurn(turn)) {
 			game.setNextTurn(turn.getPlayer());
 		}
 	}
@@ -57,7 +57,7 @@ public class GameEngine {
 				.summaryStatistics().getSum();
 	}
 
-	private boolean checkIfNewTurn(Turn turn) {
+	private boolean playerGetsNewTurn(Turn turn) {
 		int pitId = turn.getPit().getId();
 		if (!isRegularPit(pitId) && isPLayersPit(turn)) {
 			return true;
