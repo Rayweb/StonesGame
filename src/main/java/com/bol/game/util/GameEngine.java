@@ -28,15 +28,40 @@ public class GameEngine {
 				}
 			}
 		}
-
 	}
 
 	private void setStateAfterLastDrop(Turn turn) {
+		if (canCapture(turn)) {
+			captureStones(turn);
+		}
 		if (ifEndOfGame()) {
 			game.setState(GameState.FINISHED);
 		}
 		if (playerGetsNewTurn(turn)) {
 			game.setNextTurn(turn.getPlayer());
+		}
+	}
+
+	public boolean canCapture(Turn turn) {
+		int pitId = turn.getPit().getId();
+		int stonesInPit = game.getBoard().getPits().get(pitId).getStones();
+		if(stonesInPit == 1 && isPLayersPit(turn) && isRegularPit(pitId)) {
+			return true;
+		}
+		return false;
+	}
+
+	private void captureStones(Turn turn) {
+		int capturedStones = takeStones(turn.getPit().getId());
+		capturedStones = capturedStones + takeStones(turn.getPit().getOpositePit());
+		if (turn.getPlayer() == Player.PLAYER_1) {
+			int stonesInBigPit = game.getBoard().getPits().get(6).getStones();
+			stonesInBigPit = stonesInBigPit + capturedStones;
+			game.getBoard().getPits().get(6).setStones(stonesInBigPit);
+		} else {
+			int stonesInBigPit = game.getBoard().getPits().get(13).getStones();
+			stonesInBigPit = stonesInBigPit + capturedStones;
+			game.getBoard().getPits().get(13).setStones(stonesInBigPit);
 		}
 	}
 
@@ -50,11 +75,8 @@ public class GameEngine {
 	}
 
 	private long getStonesOfPlayer(Player player) {
-		return game.getBoard().getPits().stream()
-				.filter(pit -> pit.getType() == PitType.REGULAR)
-				.filter(pit -> pit.getOwner() == player)
-				.mapToInt(pit -> pit.getStones())
-				.summaryStatistics().getSum();
+		return game.getBoard().getPits().stream().filter(pit -> pit.getType() == PitType.REGULAR)
+				.filter(pit -> pit.getOwner() == player).mapToInt(pit -> pit.getStones()).summaryStatistics().getSum();
 	}
 
 	private boolean playerGetsNewTurn(Turn turn) {
