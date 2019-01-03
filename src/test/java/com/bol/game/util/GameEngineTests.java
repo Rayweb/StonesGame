@@ -98,7 +98,7 @@ public class GameEngineTests {
 		pits.get(0).setStones(13);
 		gameEngine.playNextTurn(turn);
 		int stonesCountInpit0 = pits.get(0).getStones();
-		assertThat(stonesCountInpit0).as("Pit 0 should have 1 Stones").isEqualTo(1);
+		assertThat(stonesCountInpit0).as("Pit 0 should have 0 Stones").isEqualTo(0);
 	}
 	
 	@Test
