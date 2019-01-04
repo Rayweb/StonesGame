@@ -1,10 +1,13 @@
 package com.bol.game.service;
 
+import org.springframework.stereotype.Service;
+
+import com.bol.game.domain.Game;
 import com.bol.game.domain.Turn;
 import com.bol.game.util.GameEngine;
 
+@Service
 public class GameService {
-	
 	
 	private GameEngine gameEngine;
 
@@ -16,4 +19,7 @@ public class GameService {
 		this.gameEngine.playNextTurn(turn);
 	}
 
+	public Game getNewGame(){
+		return this.gameEngine.getGame();
+	}
 }

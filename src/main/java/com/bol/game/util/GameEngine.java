@@ -1,11 +1,14 @@
 package com.bol.game.util;
 
+import org.springframework.stereotype.Component;
+
 import com.bol.game.domain.Game;
 import com.bol.game.domain.GameState;
 import com.bol.game.domain.PitType;
 import com.bol.game.domain.Player;
 import com.bol.game.domain.Turn;
 
+@Component
 public class GameEngine {
 
 	private Game game;

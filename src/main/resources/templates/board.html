@@ -231,6 +231,12 @@
 		$(document).on("click", ".pit", function() {
 			console.log("clicked");
 		});
+		
+        var source = new EventSource("/sse");
+        source.onmessage = function(event) {
+        	 console.log(event);
+             //console.log(JSON.parse(event.data));
+        }
 	</script>
 </body>
 
