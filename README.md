@@ -1,2 +1,2 @@
-# StonesGame [![Build Status](https://api.travis-ci.org/Rayweb/StonesGame.png?branch=master)](https://travis-ci.org/Rayweb/StonesGame) [![codecov](https://codecov.io/gh/Rayweb/StonesGame/branch/master/graph/badge.svg)](https://codecov.io/gh/Rayweb/StonesGame)
+# StonesGame [![Build Status](https://api.travis-ci.org/Rayweb/StonesGame.png?branch=master)](https://travis-ci.org/Rayweb/StonesGame) [![codecov](https://codecov.io/gh/Rayweb/StonesGame/branch/master/graph/badge.svg)](https://codecov.io/gh/Rayweb/StonesGame)[![Maintainability](https://api.codeclimate.com/v1/badges/6c452118dad5c8e5266a/maintainability)](https://codeclimate.com/github/Rayweb/StonesGame/maintainability)
 Bol Stones Game in Java using Spring boot 
