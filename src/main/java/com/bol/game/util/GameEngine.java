@@ -23,12 +23,7 @@ public class GameEngine {
 			int stonesInHand = takeStones(turn.getPit().getId());
 			turn = moveTurnToNextPit(turn);
 			for (int i = stonesInHand; i > 0; i--) {
-				dropStone(turn.getPit().getId());
-				if (i == 1) {
-					setStateAfterLastDrop(turn);
-				} else {
-					turn = moveTurnToNextPit(turn);
-				}
+				dropStone(turn,i);
 			}
 		}
 	}
@@ -140,10 +135,16 @@ public class GameEngine {
 		return stonesInHand;
 	}
 
-	public void dropStone(int pit) {
-		int stones = game.board.getPits().get(pit).getStones();
+	public void dropStone(Turn turn,int remainingStones) {
+		int pitId = turn.getPit().getId();
+		int stones = game.board.getPits().get(pitId).getStones();
 		stones = stones + 1;
-		game.board.getPits().get(pit).setStones(stones);
+		game.board.getPits().get(pitId).setStones(stones);
+		if (remainingStones == 1) {
+			setStateAfterLastDrop(turn);
+		} else {
+			turn = moveTurnToNextPit(turn);
+		}
 	}
 
 	public boolean isValidMove(Turn turn) {

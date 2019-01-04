@@ -162,8 +162,9 @@ public class GameEngineTests {
 	
 	@Test
 	public void whenDropStone_PitHasOneMoreStone() {
+		Turn turn = new Turn(Player.PLAYER_1, regularPitPlayer1);
 		int oldValue = gameEngine.getGame().getBoard().getPits().get(regularPitPlayer1.getId()).getStones();
-		gameEngine.dropStone(0);
+		gameEngine.dropStone(turn,5);
 		int newValue = gameEngine.getGame().getBoard().getPits().get(regularPitPlayer1.getId()).getStones();
 		assertThat(oldValue + 1).as("The stone cound increase by one").isEqualTo(newValue);
 		assertThat(oldValue).as("The stone cound increase by one").isNotEqualTo(newValue);
