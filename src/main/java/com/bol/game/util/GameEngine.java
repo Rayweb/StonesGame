@@ -16,7 +16,7 @@ public class GameEngine {
 	public GameEngine() {
 		game = GameFactory.newGame();
 	}
-
+	
 	public void playNextTurn(Turn turn) {
 		if (isValidMove(turn)) {
 			setNextTurn(turn.getPlayer());

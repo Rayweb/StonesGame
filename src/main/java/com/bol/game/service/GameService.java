@@ -22,4 +22,8 @@ public class GameService {
 	public Game getNewGame(){
 		return this.gameEngine.getGame();
 	}
+	
+	public Game getGame(){
+		return this.gameEngine.getGame();
+	}
 }
