@@ -10,69 +10,8 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 	crossorigin="anonymous">
-<style>
-.largePit {
-	border-radius: 25px;
-	width: 80px;
-	height: 270px;
-	margin: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.player-2 {
-	background: #a18b75;
-}
-
-.player-1 {
-	background: #ffa467;
-}
-
-.board {
-	background: #ffd391;
-	border-radius: 25px;
-}
-
-.pit {
-	cursor: pointer;
-	border-radius: 25px;
-	width: 100px;
-	height: 100px;
-	margin: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.stone-count {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	font-size: 45Px;
-	color: #f0f8ff;
-	font-weight: bolder;
-	margin-bottom: .4rem;
-}
-
-.logo {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	font-size: 36px;
-	color: #753f00;
-	font-weight: bolder;
-}
-
-.player-card {
-	border-radius: 25px;
-	background: #ffd391;
-}
-
-.player-image {
-	height: 160px;
-	width: 160px;
-	margin: 10px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="css/styles.css" />
 </head>
-
 <body>
 	<div class="container-fluid">
 		<div class="jumbotron mt-3 text-center">
@@ -88,12 +27,13 @@
 		<div class="row">
 			<div class="col-md-2">
 				<div>
-					<div class="card text-center player-card">
+					<div class="card text-center player-card card-PLAYER_1">
 						<img src="images/player1.png"
 							class="rounded mx-auto img-responsive player-image">
 						<div class="card-body">
 							<h5 class="card-title ">Player 1</h5>
-							<a href="#" class="btn btn-primary">Go somewhere</a>
+							<button type="button" data-player="PLAYER_1" class="btn btn-primary btn-play">Play as Player 1</button>
+							<button type="button" data-player="PLAYER_1" class="btn btn-success btn-playPit" style="display: none;">Play Selected Pit</button>
 						</div>
 					</div>
 				</div>
@@ -101,39 +41,39 @@
 			<div class="col-md-8 board">
 				<div class="row">
 					<div class="col-md-1">
-						<div class="largePit player-1 mx-auto">
+						<div class="largePit1 mx-auto">
 							<p id="pit6" class="stone-count">0</p>
 						</div>
 					</div>
 					<div class="col-md-10">
 						<div class="row">
 							<div class="col-md-2">
-								<div class="pit player-1 mx-auto">
+								<div class="pit PLAYER_1 mx-auto">
 									<span id="pit5" class="stone-count">6</span>
 								</div>
 							</div>
 							<div class="col-md-2">
-								<div class="pit player-1 mx-auto">
+								<div class="pit PLAYER_1 mx-auto">
 									<span id="pit4" class="stone-count">6</span>
 								</div>
 							</div>
 							<div class="col-md-2">
-								<div class="pit player-1 mx-auto">
+								<div class="pit PLAYER_1 mx-auto">
 									<span id="pit3" class="stone-count">6</span>
 								</div>
 							</div>
 							<div class="col-md-2">
-								<div class="pit player-1 mx-auto">
+								<div class="pit PLAYER_1 mx-auto">
 									<span id="pit2" class="stone-count">6</span>
 								</div>
 							</div>
 							<div class="col-md-2">
-								<div class="pit player-1 mx-auto">
+								<div class="pit PLAYER_1 mx-auto">
 									<span id="pit1" class="stone-count">6</span>
 								</div>
 							</div>
 							<div class="col-md-2">
-								<div class="pit player-1 mx-auto">
+								<div class="pit PLAYER_1 mx-auto">
 									<span id="pit0" class="stone-count">6</span>
 								</div>
 							</div>
@@ -147,52 +87,71 @@
 						</div>
 						<div class="row">
 							<div class="col-md-2">
-								<div class="pit player-2 mx-auto">
+								<div class="pit PLAYER_2 mx-auto">
 									<span id="pit7" class="stone-count">6</span>
 								</div>
 							</div>
 							<div class="col-md-2">
-								<div class="pit player-2  mx-auto">
+								<div class="pit PLAYER_2  mx-auto">
 									<span id="pit8" class="stone-count">6</span>
 								</div>
 							</div>
 							<div class="col-md-2">
-								<div class="pit player-2 mx-auto">
+								<div class="pit PLAYER_2 mx-auto">
 									<span id="pit9" class="stone-count">6</span>
 								</div>
 							</div>
 							<div class="col-md-2">
-								<div class="pit player-2 mx-auto">
+								<div class="pit PLAYER_2 mx-auto">
 									<span id="pit10" class="stone-count">6</span>
 								</div>
 							</div>
 							<div class="col-md-2">
-								<div class="pit player-2 mx-auto">
+								<div class="pit PLAYER_2 mx-auto">
 									<span id="pit11" class="stone-count">6</span>
 								</div>
 							</div>
 							<div class="col-md-2">
-								<div class="pit player-2 mx-auto">
+								<div class="pit PLAYER_2 mx-auto">
 									<span id="pit12" class="stone-count">6</span>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-1">
-						<div class="largePit player-2 mx-auto">
+						<div class="largePit2 mx-auto">
 							<p id="pit13" class="stone-count">0</p>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-2">
-				<div class="card text-center player-card">
+				<div class="card text-center player-card card-PLAYER_2">
 					<img src="images/player2.png"
 						class="rounded mx-auto img-responsive player-image">
 					<div class="card-body">
 						<h5 class="card-title ">Player 2</h5>
-						<a href="#" class="btn btn-primary">Go somewhere</a>
+						<button type="button" data-player="PLAYER_2" class="btn btn-primary btn-play">Play as Player 2</button>
+						<button type="button" class="btn btn-success btn-playPit" style="display: none;">Play Selected Pit</button>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="container-fluid" style="margin: 10px">
+				<div class="row">
+					<div class="col-md-2 col-md-offset-1"></div>
+					<div class="col-md-8 col-md-offset-1">
+						<div class="alert alert-primary alert-dismissible in text-center"
+							role="alert">
+							<strong>Select your player!</strong>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+
+					</div>
+					<div class="col-md-2 col-md-offset-1"></div>
 				</div>
 			</div>
 		</div>
@@ -201,7 +160,6 @@
 	<!-- 	 crossorigin="anonymous"></script> -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
 		integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
@@ -210,34 +168,7 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
 		integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
 		crossorigin="anonymous"></script>
-	<script>
-		$.ajax({
-			url : '/game',
-			type : 'GET',
-			error : function() {
-				console.log("error");
-			},
-			success : function(data) {
-				$.each(data.board.pits, function(i, pit) {
-					console.log(pit);
-					if(pit.stones != 0){
-						$('#pit' + pit.id).text(pit.stones)
-					}else{
-						$('#pit' + pit.id).text("");
-					}
-				});
-			}
-		});
-		$(document).on("click", ".pit", function() {
-			console.log("clicked");
-		});
-		
-        var source = new EventSource("/sse");
-        source.onmessage = function(event) {
-        	 console.log(event);
-             //console.log(JSON.parse(event.data));
-        }
-	</script>
+	<script src="scripts/game.js" type="text/javascript"></script>
 </body>
 
 </html>
