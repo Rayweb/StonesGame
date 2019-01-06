@@ -14,6 +14,7 @@
 </head>
 <body>
 	<div class="container-fluid">
+		<span id="activePlayer" style="display: none;"></span>
 		<div class="jumbotron mt-3 text-center">
 			<h2>Let's play a stones game!</h2>
 			<p>This is a template for a simple marketing or informational
@@ -33,7 +34,7 @@
 						<div class="card-body">
 							<h5 class="card-title ">Player 1</h5>
 							<button type="button" data-player="PLAYER_1" class="btn btn-primary btn-play">Play as Player 1</button>
-							<button type="button" data-player="PLAYER_1" class="btn btn-success btn-playPit" style="display: none;">Play Selected Pit</button>
+							<button type="button" data-player="PLAYER_1" class="btn btn-success btn-playPit" style="display: none;" disabled>Play Selected Pit</button>
 						</div>
 					</div>
 				</div>
@@ -49,32 +50,32 @@
 						<div class="row">
 							<div class="col-md-2">
 								<div class="pit PLAYER_1 mx-auto">
-									<span id="pit5" class="stone-count">6</span>
+									<span data-id="5" id="pit5" class="stone-count">0</span>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="pit PLAYER_1 mx-auto">
-									<span id="pit4" class="stone-count">6</span>
+									<span data-id="4" id="pit4" class="stone-count">0</span>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="pit PLAYER_1 mx-auto">
-									<span id="pit3" class="stone-count">6</span>
+									<span data-id="3" id="pit3" class="stone-count">0</span>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="pit PLAYER_1 mx-auto">
-									<span id="pit2" class="stone-count">6</span>
+									<span data-id="2" id="pit2" class="stone-count">0</span>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="pit PLAYER_1 mx-auto">
-									<span id="pit1" class="stone-count">6</span>
+									<span data-id="1" id="pit1" class="stone-count">0</span>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="pit PLAYER_1 mx-auto">
-									<span id="pit0" class="stone-count">6</span>
+									<span data-id="0" id="pit0" class="stone-count">0</span>
 								</div>
 							</div>
 						</div>
@@ -88,32 +89,32 @@
 						<div class="row">
 							<div class="col-md-2">
 								<div class="pit PLAYER_2 mx-auto">
-									<span id="pit7" class="stone-count">6</span>
+									<span data-id="7" id="pit7" class="stone-count">0</span>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="pit PLAYER_2  mx-auto">
-									<span id="pit8" class="stone-count">6</span>
+									<span data-id="8" id="pit8" class="stone-count">0</span>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="pit PLAYER_2 mx-auto">
-									<span id="pit9" class="stone-count">6</span>
+									<span data-id="9" id="pit9" class="stone-count">0</span>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="pit PLAYER_2 mx-auto">
-									<span id="pit10" class="stone-count">6</span>
+									<span data-id="10" id="pit10" class="stone-count">0</span>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="pit PLAYER_2 mx-auto">
-									<span id="pit11" class="stone-count">6</span>
+									<span data-id="11" id="pit11" class="stone-count">0</span>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="pit PLAYER_2 mx-auto">
-									<span id="pit12" class="stone-count">6</span>
+									<span data-id="12" id="pit12" class="stone-count">0</span>
 								</div>
 							</div>
 						</div>
@@ -132,7 +133,7 @@
 					<div class="card-body">
 						<h5 class="card-title ">Player 2</h5>
 						<button type="button" data-player="PLAYER_2" class="btn btn-primary btn-play">Play as Player 2</button>
-						<button type="button" class="btn btn-success btn-playPit" style="display: none;">Play Selected Pit</button>
+						<button type="button" data-player="PLAYER_2" class="btn btn-success btn-playPit" style="display: none;" disabled>Play Selected Pit</button>
 					</div>
 				</div>
 			</div>
@@ -145,9 +146,6 @@
 						<div class="alert alert-primary alert-dismissible in text-center"
 							role="alert">
 							<strong>Select your player!</strong>
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
 						</div>
 
 					</div>

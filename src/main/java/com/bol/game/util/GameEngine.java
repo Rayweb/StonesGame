@@ -17,7 +17,7 @@ public class GameEngine {
 		game = GameFactory.newGame();
 	}
 	
-	public void playNextTurn(Turn turn) {
+	public Game playNextTurn(Turn turn) {
 		if (isValidMove(turn)) {
 			setNextTurn(turn.getPlayer());
 			int stonesInHand = takeStones(turn.getPit().getId());
@@ -26,6 +26,7 @@ public class GameEngine {
 				dropStone(turn,i);
 			}
 		}
+		return game;
 	}
 
 	private void setStateAfterLastDrop(Turn turn) {

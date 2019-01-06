@@ -26,4 +26,8 @@ public class GameService {
 	public Game getGame(){
 		return this.gameEngine.getGame();
 	}
+	
+	public void playNextTurn(Turn turn){
+		this.gameEngine.playNextTurn(turn);
+	}
 }

@@ -1,62 +1,99 @@
-function disableOponentElements(player){
-	console.log("here");
-	if(player == "PLAYER_1"){
-		$(".PLAYER_2").css("pointer-events", "none");
+function setUIelements(player) {
+	switch (player) {
+	case "PLAYER_1":
 		$(".PLAYER_1").addClass("selectable");
-	}else {
-		$(".PLAYER_1").css("pointer-events", "none");
+		$('.btn-playPit[data-player="PLAYER_1"]').prop('disabled', false);
+		break;
+	case "PLAYER_2":
 		$(".PLAYER_2").addClass("selectable");
+		$('.btn-playPit[data-player="PLAYER_2"]').prop('disabled', false);
+		break;
+	default:
+		console.log("something when wrong here");
 	}
-}
-function setText(text) {
-	$(".alert").text(text).css('font-weight','bold');
 }
 
-$.ajax({
-	url : '/game',
-	type : 'GET',
-	error : function() {
-		console.log("error");
-	},
-	success : function(data) {
-		$.each(data.board.pits, function(i, pit) {
-			console.log(pit);
-			if (pit.stones != 0) {
-				$('#pit' + pit.id).text(pit.stones)
-			} else {
-				$('#pit' + pit.id).text("");
-			}
-		});
+function disableUI() {
+	$(".selectable").removeClass("selectable");
+	$(".selectedPit").removeClass("selectedPit");
+	$('.btn-playPit').prop('disabled', true);
+}
+
+function setMessage(text, type) {
+	$(".alert").text(text).css('font-weight', 'bold');
+	$('.alert').removeClass(
+			'alert-primary alert-danger alert-success alert-warning');
+	$('.alert').addClass('alert-' + type);
+	$(".alert").alert();
+}
+
+function drawBoard(game) {
+	if (game.state == "FINISHED") {
+		var winner = game.winner;
+		disableUI();
+		setMessage("The Winner is " + winner + "!!!", "warning");
+	} else {
+		var activePlayer = $("#activePlayer").text();
+		if (game.nextTurn == activePlayer) {
+			setUIelements(game.nextTurn);
+		} else {
+			disableUI();
+		}
+		setMessage("Its " + game.nextTurn + " Turn", "success");
 	}
-});
-$(document).on("click", ".pit", function() {
-	console.log("clicked");
+	$.each(game.board.pits, function(i, pit) {
+		if (pit.stones != 0) {
+			$('#pit' + pit.id).text(pit.stones)
+		} else {
+			$('#pit' + pit.id).text("");
+		}
+	});
+}
+
+function playerRegisted(message, player) {
+	$(".btn-play, .btn-playPit").toggle();
+	setMessage(message, "success");
+	$("#activePlayer").text(player)
+}
+
+var source = new EventSource("/sse");
+source.onmessage = function(event) {
+	drawBoard(JSON.parse(event.data));
+}
+
+$(document).on("click", ".selectable", function(e) {
+	$(".selectedPit").addClass("selectable");
+	$(".selectedPit").removeClass("selectedPit");
+	$(e.target).closest(".pit").addClass("selectedPit");
 });
 
 $(document).on("click", ".btn-play", function(e) {
 	player = $(e.target).data("player");
-	var url = "/register/" + player;
+	var url = "/register/player/" + player;
 	$.ajax({
 		url : url,
 		type : 'POST',
-		error : function() {
-			console.log("error");
+		error : function(request, status, error) {
+			setMessage(request.responseText, "danger");
 		},
-		success : function(data){
-			$(".btn-play").hide();
-			$(".btn-playPit").show();
-			$('.alert').removeClass('alert-primary');
-			$('.alert').addClass('alert-success');
-			setText("waiting for your oponent");
-			$(".alert").alert();
-			var source = new EventSource("/sse");
-			source.onmessage = function(event) {
-				console.log(JSON.parse(event.data));
-			}
-			disableOponentElements(player);
+		success : function(data) {
+			playerRegisted(data, player);
 		}
 	});
 });
 
-
-
+$(document).on("click", ".btn-playPit", function(e) {
+	var player = $(e.target).data("player");
+	var pitId = $(".selectedPit span").data("id");
+	var url = "/playTurn/" + player + "/" + pitId;
+	$.ajax({
+		url : url,
+		type : 'POST',
+		error : function(request, status, error) {
+			setMessage(request.responseText, "danger");
+		},
+		success : function() {
+			console.log("move");
+		}
+	});
+});
