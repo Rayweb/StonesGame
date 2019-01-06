@@ -18,7 +18,9 @@ import org.springframework.web.context.request.async.AsyncRequestTimeoutExceptio
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.bol.game.domain.Game;
+import com.bol.game.domain.GameState;
 import com.bol.game.domain.Player;
+import com.bol.game.domain.Turn;
 import com.bol.game.service.GameService;
 
 @Controller
@@ -39,19 +41,6 @@ public class GameController {
 		return gameService.getNewGame();
 	}
 
-	@GetMapping("/games")
-	public @ResponseBody String getUser() {
-		synchronized (this.sseEmitters) {
-			for (SseEmitter sseEmitter : this.sseEmitters) {
-				try {
-					sseEmitter.send("hola");
-				} catch (Exception e) {
-				}
-			}
-		}
-		return "Ok";
-	}
-
 	@RequestMapping("/sse")
 	public SseEmitter getSseEmitter() {
 		SseEmitter sseEmitter = new SseEmitter();
@@ -70,29 +59,64 @@ public class GameController {
 		}
 		return sseEmitter;
 	}
-
-	@PostMapping("/register/{playerId}")
-	public ResponseEntity<String> registerPlayer(@PathVariable String playerId) {
-
-		if (playerId.equals(Player.PLAYER_1.toString()) || playerId.equals(Player.PLAYER_2.toString())) {
-			if (playerId.equals(Player.PLAYER_1.toString())){
-				gameService.getGame().setPlayer1Active(true);
-			}else {
-				gameService.getGame().setPlayer2Active(true);
+	
+	@PostMapping("/register/player/PLAYER_1")
+	public ResponseEntity<String> registerPlayer1() {
+		if (!gameService.getGame().isPlayer1Active() && gameService.getGame().getState().equals(GameState.READY)) {
+			gameService.getGame().setPlayer1Active(true);
+			if(gameService.getGame().isPlayer2Active() && gameService.getGame().getState().equals(GameState.READY)) {
+				gameService.getGame().setState(GameState.STARTED);
 			}
-			synchronized (this.sseEmitters) {
-				for (SseEmitter sseEmitter : this.sseEmitters) {
-					try {
-						sseEmitter.send(gameService.getGame());
-					} catch (Exception e) {
-					}
-				}
-			}
-			return new ResponseEntity<>("You got it! lets Play " + playerId, HttpStatus.OK);
+			sentGame();
+			return new ResponseEntity<>("Player 1 joined!", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("The player is already active or game is in play", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>("Invalid Player", HttpStatus.BAD_REQUEST);
 	}
 
+	@PostMapping("/register/player/PLAYER_2")
+	public ResponseEntity<String> registerPlayer2() {
+		if (!gameService.getGame().isPlayer2Active() && gameService.getGame().getState().equals(GameState.READY)) {
+			gameService.getGame().setPlayer2Active(true);
+			if(gameService.getGame().isPlayer1Active() && gameService.getGame().getState().equals(GameState.READY)) {
+				gameService.getGame().setState(GameState.STARTED);
+			}
+			sentGame();
+			return new ResponseEntity<>("Player 2 joined!", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("The player is already active or game is in play.", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
+	
+	@PostMapping("/playTurn/{playerId}/{pitId}")
+	public ResponseEntity<String> playeNextTurn(@PathVariable("playerId") String playerId,@PathVariable("pitId") int pitId) {
+		if (playerId.equals(Player.PLAYER_1.toString()) || playerId.equals(Player.PLAYER_2.toString())) {
+			if (playerId.equals(Player.PLAYER_1.toString())) {
+				Turn turn = new Turn(Player.PLAYER_1, gameService.getGame().getBoard().getPits().get(pitId));
+				gameService.playNextTurn(turn);
+			}else {
+				Turn turn = new Turn(Player.PLAYER_2, gameService.getGame().getBoard().getPits().get(pitId));
+				gameService.playNextTurn(turn);
+			}
+			sentGame();
+			return new ResponseEntity<>("OK", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Invalid move", HttpStatus.BAD_REQUEST);
+	}
+
+	public void sentGame() {
+		synchronized (this.sseEmitters) {
+			for (SseEmitter sseEmitter : this.sseEmitters) {
+				try {
+					sseEmitter.send(gameService.getGame());
+				} catch (Exception e) {
+				}
+			}
+		}
+	}
+	
 	@ExceptionHandler(value = AsyncRequestTimeoutException.class)
 	public String asyncTimeout(AsyncRequestTimeoutException e) {
 		return null; // "SSE timeout..OK";
