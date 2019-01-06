@@ -3,10 +3,14 @@ function setUIelements(player) {
 	case "PLAYER_1":
 		$(".PLAYER_1").addClass("selectable");
 		$('.btn-playPit[data-player="PLAYER_1"]').prop('disabled', false);
+		$('.PLAYER_2').css("pointer-events", "none");
+		$('.PLAYER_1').css("pointer-events", "auto");
 		break;
 	case "PLAYER_2":
 		$(".PLAYER_2").addClass("selectable");
 		$('.btn-playPit[data-player="PLAYER_2"]').prop('disabled', false);
+		$('.PLAYER_1').css("pointer-events", "none");
+		$('.PLAYER_2').css("pointer-events", "auto");
 		break;
 	default:
 		console.log("something when wrong here");
@@ -27,12 +31,25 @@ function setMessage(text, type) {
 	$(".alert").alert();
 }
 
+function setInitialUI() {
+	$("#activePlayer").text("");
+	$(".btn-play, .btn-playPit").toggle();
+	$(".selectable").removeClass("selectable");
+	$(".selectedPit").removeClass("selectedPit");
+}
+
 function drawBoard(game) {
-	if (game.state == "FINISHED") {
+	switch (game.state) {
+	case "FINISHED":
 		var winner = game.winner;
 		disableUI();
 		setMessage("The Winner is " + winner + "!!!", "warning");
-	} else {
+		break;
+	case "RESTARTED":
+		setInitialUI();
+		setMessage("Game restarted, lets play again! Select your player.","primary");
+		break;
+	default:
 		var activePlayer = $("#activePlayer").text();
 		if (game.nextTurn == activePlayer) {
 			setUIelements(game.nextTurn);
@@ -41,11 +58,15 @@ function drawBoard(game) {
 		}
 		setMessage("Its " + game.nextTurn + " Turn", "success");
 	}
+
 	$.each(game.board.pits, function(i, pit) {
 		if (pit.stones != 0) {
 			$('#pit' + pit.id).text(pit.stones)
 		} else {
 			$('#pit' + pit.id).text("");
+			$('#pit' + pit.id).closest(".pit").removeClass(
+					"selectable selectedPit");
+			$('#pit' + pit.id).closest(".pit").css("pointer-events", "none");
 		}
 	});
 }
@@ -74,7 +95,7 @@ $(document).on("click", ".btn-play", function(e) {
 		url : url,
 		type : 'POST',
 		error : function(request, status, error) {
-			setMessage(request.responseText, "danger");
+			setMessage(request.responseJSON.message, "danger");
 		},
 		success : function(data) {
 			playerRegisted(data, player);
@@ -85,15 +106,34 @@ $(document).on("click", ".btn-play", function(e) {
 $(document).on("click", ".btn-playPit", function(e) {
 	var player = $(e.target).data("player");
 	var pitId = $(".selectedPit span").data("id");
-	var url = "/playTurn/" + player + "/" + pitId;
+	if (pitId == undefined) {
+		setMessage("Please select a pit first!", "danger");
+	} else {
+		var url = "/playTurn/" + player + "/" + pitId;
+		$.ajax({
+			url : url,
+			type : 'POST',
+			error : function(request, status, error) {
+				setMessage(request.responseText, "danger");
+			},
+			success : function() {
+				console.log("Move applied");
+			}
+		});
+	}
+
+});
+
+$(document).on("click",".reset-game",function(e) {
+	$('#myModal').modal('hide');
 	$.ajax({
-		url : url,
+		url : "/reset",
 		type : 'POST',
 		error : function(request, status, error) {
 			setMessage(request.responseText, "danger");
 		},
 		success : function() {
-			console.log("move");
+			console.log('Restarted')
 		}
 	});
 });

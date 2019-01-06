@@ -4,6 +4,6 @@ public enum GameState {
 
 	STARTED,
 	FINISHED,
-	WAITING_FOR_PLAYER2,
+	RESTARTED,
 	READY
 }

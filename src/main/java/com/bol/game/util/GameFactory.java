@@ -17,6 +17,8 @@ public class GameFactory {
 	public static Game newGame() {
 		Game newGame = new Game();
 		newGame.setState(GameState.READY);
+		newGame.setPlayer1Active(false);
+		newGame.setPlayer2Active(false);
 		newGame.setNextTurn(Player.PLAYER_1);
 		newGame.setBoard(setupBoard());
 		return newGame;
