@@ -74,7 +74,6 @@ function drawBoard(game) {
 	updatePits(game.board.pits);
 }
 
-
 function playerRegisted(message, player) {
 	$(".btn-play, .btn-playPit").toggle();
 	setMessage(message, "success");
