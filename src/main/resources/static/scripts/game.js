@@ -38,6 +38,19 @@ function setInitialUI() {
 	$(".selectedPit").removeClass("selectedPit");
 }
 
+function updatePits(pits){
+	$.each(pits, function(i, pit) {
+		if (pit.stones != 0) {
+			$('#pit' + pit.id).text(pit.stones)
+		} else {
+			$('#pit' + pit.id).text("");
+			$('#pit' + pit.id).closest(".pit").removeClass(
+					"selectable selectedPit");
+			$('#pit' + pit.id).closest(".pit").css("pointer-events", "none");
+		}
+	});
+}
+
 function drawBoard(game) {
 	switch (game.state) {
 	case "FINISHED":
@@ -58,18 +71,9 @@ function drawBoard(game) {
 		}
 		setMessage("Its " + game.nextTurn + " Turn", "success");
 	}
-
-	$.each(game.board.pits, function(i, pit) {
-		if (pit.stones != 0) {
-			$('#pit' + pit.id).text(pit.stones)
-		} else {
-			$('#pit' + pit.id).text("");
-			$('#pit' + pit.id).closest(".pit").removeClass(
-					"selectable selectedPit");
-			$('#pit' + pit.id).closest(".pit").css("pointer-events", "none");
-		}
-	});
+	updatePits(game.board.pits);
 }
+
 
 function playerRegisted(message, player) {
 	$(".btn-play, .btn-playPit").toggle();
