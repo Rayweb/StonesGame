@@ -7,10 +7,14 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.bol.game.domain.GameState;
 import com.bol.game.domain.Pit;
 import com.bol.game.domain.PitType;
 import com.bol.game.domain.Player;
 import com.bol.game.domain.Turn;
+import com.bol.game.util.exception.GameStateException;
+import com.bol.game.util.exception.InvalidPlayerIdException;
+import com.bol.game.util.exception.PlayerAlreadyActiveException;
 
 public class GameEngineTests {
 
@@ -201,4 +205,7 @@ public class GameEngineTests {
 	}
 	
 	
+	
+	
 }
+

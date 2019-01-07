@@ -21,18 +21,24 @@ public class GameEngineEndOfGameTests {
 	public void init() {
 		gameEngine = new GameEngine();
 		List<Pit> pits = gameEngine.getGame().getBoard().getPits();
-		pits.get(0).setStones(0);
-		pits.get(1).setStones(0);
-		pits.get(2).setStones(0);
-		pits.get(3).setStones(0);
-		pits.get(4).setStones(0);
-		pits.get(5).setStones(0);
+		for(Pit pit : pits) {
+			if(pit.getType().equals(PitType.REGULAR)) {
+				pit.setStones(0);
+			}
+		}
+//		pits.get(0).setStones(0);
+//		pits.get(1).setStones(0);
+//		pits.get(2).setStones(0);
+//		pits.get(3).setStones(0);
+//		pits.get(4).setStones(0);
+//		pits.get(5).setStones(0);
 	}
 
 	@Test
 	public void endOfGameShouldBeFalse() {
 		List<Pit> pits = gameEngine.getGame().getBoard().getPits();
 		pits.get(5).setStones(1);
+		pits.get(7).setStones(1);
 		boolean gameEnded = gameEngine.endOfGame();
 		assertThat(gameEnded).as("End of game").isFalse();
 	}
@@ -60,6 +66,29 @@ public class GameEngineEndOfGameTests {
 		GameState gameState = gameEngine.getGame().getState();
 		assertThat(gameState).as("Game State should be Finished").isEqualTo(GameState.FINISHED);
 	}
+	
+	@Test
+	public void endOfGame_Player1HasNoStones() {
+		Turn turn = new Turn(Player.PLAYER_1, new Pit(5, Player.PLAYER_1, 7, PitType.REGULAR, 6));
+		List<Pit> pits = gameEngine.getGame().getBoard().getPits();
+		pits.get(5).setStones(1);
+		pits.get(12).setStones(1);
+		gameEngine.playNextTurn(turn);
+		GameState gameState = gameEngine.getGame().getState();
+		assertThat(gameState).as("Game State should be Finished").isEqualTo(GameState.FINISHED);
+	}
+	
+	@Test
+	public void endOfGame_Player2HasNoStones() {
+		Turn turn = new Turn(Player.PLAYER_2, new Pit(12, Player.PLAYER_2, 0, PitType.REGULAR, 6));
+		List<Pit> pits = gameEngine.getGame().getBoard().getPits();
+		pits.get(5).setStones(1);
+		pits.get(12).setStones(1);
+		gameEngine.playNextTurn(turn);
+		GameState gameState = gameEngine.getGame().getState();
+		assertThat(gameState).as("Game State should be Finished").isEqualTo(GameState.FINISHED);
+	}
+	
 	
 	@Test
 	public void ifEndOfGameGameWinnerShouldBePlayer1() {
