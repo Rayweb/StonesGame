@@ -25,7 +25,7 @@ public class GameEngine {
 		game.setState(GameState.RESTARTED);
 	}
 
-	public Game playNextTurn(Turn turn) {
+	public void playNextTurn(Turn turn) {
 		if (isValidMove(turn)) {
 			setNextTurn(turn.getPlayer());
 			int stonesInHand = takeStones(turn.getPit().getId());
@@ -34,7 +34,6 @@ public class GameEngine {
 				dropStone(turn, i);
 			}
 		}
-		return game;
 	}
 
 	private void setStateAfterLastDrop(Turn turn) {
@@ -97,8 +96,11 @@ public class GameEngine {
 	}
 
 	private long getStonesOfPlayer(Player player) {
-		return game.getBoard().getPits().stream().filter(pit -> pit.getType() == PitType.REGULAR)
-				.filter(pit -> pit.getOwner() == player).mapToInt(pit -> pit.getStones()).summaryStatistics().getSum();
+		return game.getBoard().getPits().stream()
+				.filter(pit -> pit.getType() == PitType.REGULAR)
+				.filter(pit -> pit.getOwner() == player)
+				.mapToInt(pit -> pit.getStones())
+				.summaryStatistics().getSum();
 	}
 
 	private boolean playerGetsNewTurn(Turn turn) {
@@ -203,8 +205,10 @@ public class GameEngine {
 		if (!gameStateAllowsRegistration()) {
 			throw new GameStateException("The current Game state: " + game.getState().toString() + " does not allow registration");
 		}
-		setPlayerStatus(playerId);
-		setGameStateAfterRegistration();
+		if(isValidPlayerId(playerId)) {
+			setPlayerStatus(playerId);
+			setGameStateAfterRegistration();
+		}
 	}
 
 	private void setPlayerStatus(String playerId) throws PlayerAlreadyActiveException, InvalidPlayerIdException {
@@ -220,7 +224,12 @@ public class GameEngine {
 			}else {
 				game.setPlayer2Active(true);
 			}
-		} else {
+		} 
+	}
+	public boolean isValidPlayerId(String playerId) throws InvalidPlayerIdException {
+		if (playerId.equals("PLAYER_1") || playerId.equals("PLAYER_2")) {
+			return true;
+		}else {
 			throw new InvalidPlayerIdException("Invalid Player Id");
 		}
 	}
