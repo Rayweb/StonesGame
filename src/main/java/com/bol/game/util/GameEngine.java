@@ -72,7 +72,7 @@ public class GameEngine {
 		return false;
 	}
 
-	private void captureStones(Turn turn) {
+	public void captureStones(Turn turn) {
 		int capturedStones = takeStones(turn.getPit().getId());
 		capturedStones = capturedStones + takeStones(turn.getPit().getOpositePit());
 		if (turn.getPlayer() == Player.PLAYER_1) {
@@ -226,6 +226,7 @@ public class GameEngine {
 			}
 		} 
 	}
+	
 	public boolean isValidPlayerId(String playerId) throws InvalidPlayerIdException {
 		if (playerId.equals("PLAYER_1") || playerId.equals("PLAYER_2")) {
 			return true;

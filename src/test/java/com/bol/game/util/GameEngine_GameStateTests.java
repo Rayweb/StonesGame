@@ -11,7 +11,7 @@ import com.bol.game.util.exception.GameStateException;
 import com.bol.game.util.exception.InvalidPlayerIdException;
 import com.bol.game.util.exception.PlayerAlreadyActiveException;
 
-public class GameEngineGameStateTests {
+public class GameEngine_GameStateTests {
 
 	public GameEngine gameEngine;
 	
@@ -53,5 +53,20 @@ public class GameEngineGameStateTests {
 	public void gameStateWithNoActivePlayer_ShoulBeStarted() throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
 		GameState state = gameEngine.getGame().getState();
 		assertThat(state).isEqualTo(GameState.READY);
+	}
+	
+	@Test
+	public void gameState_ShouldNotAllowRegistration() throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
+		gameEngine.registerPlayer(Player.PLAYER_1.toString());
+		gameEngine.registerPlayer(Player.PLAYER_2.toString());
+		boolean allowsResitration = gameEngine.gameStateAllowsRegistration();
+		assertThat(allowsResitration).isFalse();
+	}
+	
+	@Test
+	public void gameStaterRestarted_ShouldAllowRegistration() throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
+		gameEngine.resetGame();
+		boolean allowsResitration = gameEngine.gameStateAllowsRegistration();
+		assertThat(allowsResitration).isTrue();
 	}
 }

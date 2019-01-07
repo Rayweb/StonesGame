@@ -12,8 +12,11 @@ import com.bol.game.domain.Pit;
 import com.bol.game.domain.PitType;
 import com.bol.game.domain.Player;
 import com.bol.game.domain.Turn;
+import com.bol.game.util.exception.GameStateException;
+import com.bol.game.util.exception.InvalidPlayerIdException;
+import com.bol.game.util.exception.PlayerAlreadyActiveException;
 
-public class GameEngineEndOfGameTests {
+public class GameEngine_EndOfGameTests {
 
 	public GameEngine gameEngine;
 		
@@ -26,12 +29,6 @@ public class GameEngineEndOfGameTests {
 				pit.setStones(0);
 			}
 		}
-//		pits.get(0).setStones(0);
-//		pits.get(1).setStones(0);
-//		pits.get(2).setStones(0);
-//		pits.get(3).setStones(0);
-//		pits.get(4).setStones(0);
-//		pits.get(5).setStones(0);
 	}
 
 	@Test
@@ -126,4 +123,13 @@ public class GameEngineEndOfGameTests {
 		assertThat(winner).as("Game should end in Draw").isEqualTo("DRAW");
 	}
 	
+	@Test
+	public void gameEnded_ShouldAllowRegistration() throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
+		Turn turn = new Turn(Player.PLAYER_1, new Pit(5, Player.PLAYER_1, 7, PitType.REGULAR, 6));
+		List<Pit> pits = gameEngine.getGame().getBoard().getPits();
+		pits.get(5).setStones(1);
+		gameEngine.playNextTurn(turn);
+		boolean allowsResitration = gameEngine.gameStateAllowsRegistration();
+		assertThat(allowsResitration).isFalse();
+	}
 }
