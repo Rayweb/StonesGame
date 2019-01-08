@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import com.bol.game.domain.GameState;
 import com.bol.game.domain.Player;
-import com.bol.game.util.exception.GameStateException;
-import com.bol.game.util.exception.InvalidPlayerIdException;
-import com.bol.game.util.exception.PlayerAlreadyActiveException;
+import com.bol.game.exception.GameStateException;
+import com.bol.game.exception.InvalidPlayerIdException;
+import com.bol.game.exception.PlayerAlreadyActiveException;
 
 public class GameEngine_GameStateTests {
 

@@ -12,9 +12,9 @@ import com.bol.game.domain.Pit;
 import com.bol.game.domain.PitType;
 import com.bol.game.domain.Player;
 import com.bol.game.domain.Turn;
-import com.bol.game.util.exception.GameStateException;
-import com.bol.game.util.exception.InvalidPlayerIdException;
-import com.bol.game.util.exception.PlayerAlreadyActiveException;
+import com.bol.game.exception.GameStateException;
+import com.bol.game.exception.InvalidPlayerIdException;
+import com.bol.game.exception.PlayerAlreadyActiveException;
 
 public class GameEngineTests {
 

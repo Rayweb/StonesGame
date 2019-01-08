@@ -1,4 +1,4 @@
-package com.bol.game.util.exception;
+package com.bol.game.exception;
 
 public class PlayerAlreadyActiveException extends Exception {
 

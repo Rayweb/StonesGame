@@ -4,10 +4,10 @@ import org.springframework.stereotype.Service;
 
 import com.bol.game.domain.Game;
 import com.bol.game.domain.Turn;
+import com.bol.game.exception.GameStateException;
+import com.bol.game.exception.InvalidPlayerIdException;
+import com.bol.game.exception.PlayerAlreadyActiveException;
 import com.bol.game.util.GameEngine;
-import com.bol.game.util.exception.GameStateException;
-import com.bol.game.util.exception.InvalidPlayerIdException;
-import com.bol.game.util.exception.PlayerAlreadyActiveException;
 
 @Service
 public class GameService {
@@ -18,10 +18,6 @@ public class GameService {
 		this.gameEngine = gameEngine;
 	}
 	
-	public void move(Turn turn){
-		this.gameEngine.playNextTurn(turn);
-	}
-
 	public void resetGame(){
 		this.gameEngine.resetGame();
 	}
@@ -35,6 +31,6 @@ public class GameService {
 	}
 	
 	public void registerPlayer(String playerId) throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
-		gameEngine.registerPlayer(playerId);
+		this.gameEngine.registerPlayer(playerId);
 	}
 }

@@ -1,4 +1,4 @@
-package com.bol.game.util.exception;
+package com.bol.game.exception;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
