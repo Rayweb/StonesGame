@@ -70,12 +70,6 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.0</version>
-				<configuration>
-					<excludes>
-						<exclude>**com/bol/game/domain/**/*</exclude>
-						<exclude>**com/bol/game/config/**/*</exclude>
-					</excludes>
-				</configuration>
 				<executions>
 					<execution>
 						<goals>
