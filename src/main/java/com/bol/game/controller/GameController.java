@@ -53,7 +53,7 @@ public class GameController {
 	public ResponseEntity<String> registerPlayer1(@PathVariable("playerId") String playerId) throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
 		gameService.registerPlayer(playerId);
 		sentGame();
-		return new ResponseEntity<>("Yo joined as " + playerId, HttpStatus.OK);
+		return new ResponseEntity<>("You joined as " + playerId, HttpStatus.OK);
 	}
 
 	@PostMapping("/playTurn/{playerId}/{pitId}")

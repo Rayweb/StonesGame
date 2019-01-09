@@ -33,7 +33,8 @@ function setMessage(text, type) {
 
 function setInitialUI() {
 	$("#activePlayer").text("");
-	$(".btn-play, .btn-playPit").toggle();
+	$(".btn-playPit").hide();
+	$(".btn-play").show();
 	$(".selectable").removeClass("selectable");
 	$(".selectedPit").removeClass("selectedPit");
 }
@@ -53,6 +54,9 @@ function updatePits(pits){
 
 function drawBoard(game) {
 	switch (game.state) {
+	case "READY":
+		setMessage("A player joined, game will start once you select your player", "success");
+		break;
 	case "FINISHED":
 		var winner = game.winner;
 		disableUI();

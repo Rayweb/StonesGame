@@ -25,16 +25,17 @@
 }
 
 .PLAYER_1:hover {
-    cursor: pointer;
-    background: #f77621;
+	cursor: pointer;
+	background: #f77621;
 }
 
 .PLAYER_2 {
 	background: #a18b75;
 }
+
 .PLAYER_2:hover {
-    cursor: pointer;
-    background: #695b4d;
+	cursor: pointer;
+	background: #695b4d;
 }
 
 .board {
@@ -89,4 +90,70 @@
 	height: 160px;
 	width: 160px;
 	margin: 10px;
+}
+
+.btn-success.disabled, .btn-success:disabled {
+	border: 1px solid #999999;
+	background-color: #cccccc;
+	color: #666666;
+}
+
+@media screen and (max-width: 1250px) {
+	.player-image {
+		height: 60px;
+		width: 60px;
+		margin: 5px;
+	}
+	.pit {
+		border-radius: 25px;
+		width: 50px;
+		height: 50px;
+		margin: 5px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.largePit1 {
+		background: #ffa467;
+		border-radius: 25px;
+		width: 50px;
+		height: 162px;
+		margin: 5px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.largePit2 {
+		background: #a18b75;
+		border-radius: 25px;
+		width: 50px;
+		height: 162px;
+		margin: 5px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3,
+		.col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+		padding-left: 1px;
+		padding-right: 1px;
+	}
+	.stone-count {
+		font-family: Verdana, Geneva, Tahoma, sans-serif;
+		font-size: 25Px;
+		color: #f0f8ff;
+		font-weight: bolder;
+		margin-bottom: .4rem;
+	}
+	.card-body {
+		-ms-flex: 1 1 auto;
+		flex: 1 1 auto;
+		padding: 0.60rem;
+	}
+	.logo {
+		font-family: Verdana, Geneva, Tahoma, sans-serif;
+		font-size: 32px;
+		color: #753f00;
+		font-weight: bolder;
+	}
 }

@@ -1,5 +1,6 @@
 package com.bol.game.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bol.game.domain.Game;
@@ -12,6 +13,7 @@ import com.bol.game.util.GameEngine;
 @Service
 public class GameService {
 	
+	@Autowired
 	private GameEngine gameEngine;
 
 	public GameService(GameEngine gameEngine) {
