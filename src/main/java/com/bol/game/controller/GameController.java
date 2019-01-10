@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +28,10 @@ import com.bol.game.exception.GameStateException;
 import com.bol.game.exception.InvalidPlayerIdException;
 import com.bol.game.exception.PlayerAlreadyActiveException;
 import com.bol.game.service.GameService;
+import com.bol.game.validations.PlayerId;
 
 @Controller
+@Validated
 public class GameController {
 
 	@Autowired
@@ -44,33 +51,32 @@ public class GameController {
 		if (gameService.getGame().getState().equals(GameState.RESTARTED)) {
 			sentGame();
 			return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
-		}else {
+		} else {
 			return new ResponseEntity<>("Error restarting the game", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@PostMapping("/register/player/{playerId}")
-	public ResponseEntity<String> registerPlayer1(@PathVariable("playerId") String playerId) throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
+	public ResponseEntity<String> registerPlayer1(@PathVariable("playerId") @PlayerId String playerId)
+			throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
 		gameService.registerPlayer(playerId);
 		sentGame();
 		return new ResponseEntity<>("You joined as " + playerId, HttpStatus.OK);
 	}
 
 	@PostMapping("/playTurn/{playerId}/{pitId}")
-	public ResponseEntity<String> playeNextTurn(@PathVariable("playerId") String playerId,
-			@PathVariable("pitId") int pitId) {
-		if (playerId.equals(Player.PLAYER_1.toString()) || playerId.equals(Player.PLAYER_2.toString())) {
-			if (playerId.equals(Player.PLAYER_1.toString())) {
-				Turn turn = new Turn(Player.PLAYER_1, gameService.getGame().getBoard().getPits().get(pitId));
-				gameService.playNextTurn(turn);
-			} else {
-				Turn turn = new Turn(Player.PLAYER_2, gameService.getGame().getBoard().getPits().get(pitId));
-				gameService.playNextTurn(turn);
-			}
-			sentGame();
-			return new ResponseEntity<>("OK", HttpStatus.OK);
+	public ResponseEntity<String> playeNextTurn(@PathVariable("playerId") @PlayerId String playerId,
+			@PathVariable("pitId") @Min(0) @Max(13) int pitId) {
+
+		if (playerId.equals(Player.PLAYER_1.toString())) {
+			Turn turn = new Turn(Player.PLAYER_1, gameService.getGame().getBoard().getPits().get(pitId));
+			gameService.playNextTurn(turn);
+		} else {
+			Turn turn = new Turn(Player.PLAYER_2, gameService.getGame().getBoard().getPits().get(pitId));
+			gameService.playNextTurn(turn);
 		}
-		return new ResponseEntity<>("Invalid move", HttpStatus.BAD_REQUEST);
+		sentGame();
+		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 
 	@RequestMapping("/sse")
@@ -101,11 +107,6 @@ public class GameController {
 				}
 			}
 		}
-	}
-
-	@ExceptionHandler(value = AsyncRequestTimeoutException.class)
-	public String asyncTimeout(AsyncRequestTimeoutException e) {
-		return null; // "SSE timeout..OK";
 	}
 
 }

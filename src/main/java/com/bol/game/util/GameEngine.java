@@ -17,7 +17,7 @@ public class GameEngine {
 
 	private static final int BIG_PIT_PLAYER_1 = 6;
 	private static final int BIG_PIT_PLAYER_2 = 13;
-	
+
 	private Game game;
 
 	public GameEngine() {
@@ -54,25 +54,25 @@ public class GameEngine {
 			game.setNextTurn(turn.getPlayer());
 		}
 	}
-	
+
 	public void collectStonesInPits() {
-		
-		int stonesInPitsPLayer1 = getStonesLeftforPlayer(Player.PLAYER_1);
-		int stonesInBigPit1 = game.getBoard().getPits().get(BIG_PIT_PLAYER_1).getStones();
-		stonesInBigPit1 = stonesInBigPit1 + stonesInPitsPLayer1;
-		game.getBoard().getPits().get(BIG_PIT_PLAYER_1).setStones(stonesInBigPit1);
-		
-		int stonesInPitsPLayer2 = getStonesLeftforPlayer(Player.PLAYER_2);
-		int stonesInBigPit2 = game.getBoard().getPits().get(BIG_PIT_PLAYER_2).getStones();
-		stonesInBigPit2 = stonesInBigPit2 + stonesInPitsPLayer2;
-		game.getBoard().getPits().get(BIG_PIT_PLAYER_2).setStones(stonesInBigPit2);
+		setTotalPlayerStones(Player.PLAYER_1, BIG_PIT_PLAYER_1);
+		setTotalPlayerStones(Player.PLAYER_2, BIG_PIT_PLAYER_2);
 	}
-	
+
+	private void setTotalPlayerStones(Player player, int bigPit) {
+		int stonesInPitsPLayer = getStonesLeftforPlayer(player);
+		int stonesInBigPit = game.getBoard().getPits().get(bigPit).getStones();
+		stonesInBigPit = stonesInBigPit + stonesInPitsPLayer;
+		game.getBoard().getPits().get(bigPit).setStones(stonesInBigPit);
+	}
+
 	public int getStonesLeftforPlayer(Player player) {
 		int stones = 0;
 		for (Pit pit : game.getBoard().getPits()) {
-			if(pit.getOwner() == player && pit.type == PitType.REGULAR)
-			stones = takeStones(pit.getId());
+			if ((pit.getOwner() == player) && pit.getType() == PitType.REGULAR) {
+				stones =  stones + takeStones(pit.getId());
+			}
 		}
 		return stones;
 	}

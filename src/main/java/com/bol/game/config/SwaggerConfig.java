@@ -29,7 +29,7 @@ public class SwaggerConfig {
     
     private ApiInfo apiInfo() {
         return new ApiInfo(
-          "Gome Documentation", 
+          "Game Documentation", 
           "A Generated documentation of the game.", 
           "Game TOS", 
           "Terms of service", 
