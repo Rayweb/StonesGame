@@ -104,6 +104,9 @@ public class GameController {
 				try {
 					sseEmitter.send(gameService.getGame());
 				} catch (Exception e) {
+					sseEmitter.complete();
+					this.sseEmitters.remove(sseEmitter);
+		            e.printStackTrace();
 				}
 			}
 		}

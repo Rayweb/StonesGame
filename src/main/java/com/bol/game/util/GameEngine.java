@@ -71,6 +71,7 @@ public class GameEngine {
 		int stones = 0;
 		for (Pit pit : game.getBoard().getPits()) {
 			if ((pit.getOwner() == player) && pit.getType() == PitType.REGULAR) {
+				
 				stones =  stones + takeStones(pit.getId());
 			}
 		}
