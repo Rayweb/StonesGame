@@ -4,21 +4,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.bol.game.domain.GameState;
@@ -34,6 +33,8 @@ import com.bol.game.validations.PlayerId;
 @Validated
 public class GameController {
 
+	Logger logger = LoggerFactory.getLogger(GameController.class);
+	
 	@Autowired
 	GameService gameService;
 
@@ -50,6 +51,7 @@ public class GameController {
 		gameService.resetGame();
 		if (gameService.getGame().getState().equals(GameState.RESTARTED)) {
 			sentGame();
+			logger.info("Game Event - Game Restarted");
 			return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
 		} else {
 			return new ResponseEntity<>("Error restarting the game", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -61,6 +63,7 @@ public class GameController {
 			throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
 		gameService.registerPlayer(playerId);
 		sentGame();
+		logger.info("Game Event - Player : " +playerId + " Register");
 		return new ResponseEntity<>("You joined as " + playerId, HttpStatus.OK);
 	}
 
@@ -76,6 +79,7 @@ public class GameController {
 			gameService.playNextTurn(turn);
 		}
 		sentGame();
+		logger.info("Game Event - player : " + playerId + " moved stones in pit:" + pitId);
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 
@@ -104,9 +108,6 @@ public class GameController {
 				try {
 					sseEmitter.send(gameService.getGame());
 				} catch (Exception e) {
-					sseEmitter.complete();
-					this.sseEmitters.remove(sseEmitter);
-		            e.printStackTrace();
 				}
 			}
 		}
