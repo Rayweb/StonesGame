@@ -98,13 +98,7 @@
 	color: #666666;
 }
 
-@media ( min-width : 576px) {
-	.jumbotron {
-		padding: 1.25rem 2rem;
-	}
-}
-
-@media screen and (max-width: 1250px) {
+@media screen and (max-width: 1450px) {
 	.player-image {
 		height: 60px;
 		width: 60px;
@@ -161,5 +155,28 @@
 		font-size: 32px;
 		color: #753f00;
 		font-weight: bolder;
+	}
+	.row {
+		display: -ms-flexbox;
+		display: flex;
+		flex-wrap: inherit;
+		margin-right: -15px;
+		margin-left: -15px;
+	}
+}
+
+@media ( min-width : 576px) {
+	.jumbotron {
+		padding: 1.25rem 2rem;
+	}
+}
+
+@media ( max-width : 950px) {
+	.row {
+		display: -ms-flexbox;
+		display: flex;
+		flex-wrap: inherit;
+		margin-right: -15px;
+		margin-left: -15px;
 	}
 }
