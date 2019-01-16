@@ -2,6 +2,7 @@ package com.bol.game.util;
 
 import org.springframework.stereotype.Component;
 
+import com.bol.game.domain.Board;
 import com.bol.game.domain.Game;
 import com.bol.game.domain.GameState;
 import com.bol.game.domain.Player;
@@ -17,9 +18,11 @@ public class GameEngine {
 	private static final int BIG_PIT_PLAYER_2 = 13;
 
 	private Game game;
+	private Board board;
    
 	public GameEngine() {
 		game = GameFactory.newGame();
+		board = game.getBoard();
 	}
 
 	public Game getGame() {
@@ -28,16 +31,17 @@ public class GameEngine {
 	
 	public void resetGame() {
 		game = GameFactory.newGame();
+		board = game.getBoard();
 		game.setState(GameState.RESTARTED);
 	}
 
 	public void playNextTurn(Turn turn) {
-		if (game.getBoard().isValidMove(turn)) {
+		if (board.isValidMove(turn)) {
 			setNextTurn(turn.getPlayer());
-			int stonesInHand = game.getBoard().takeStones(turn.getPit().getId());
+			int stonesInHand = board.takeStones(turn.getPit().getId());
 			turn = moveTurnToNextPit(turn);
 			for (int i = stonesInHand; i > 0; i--) {
-				game.getBoard().dropStone(turn, i);
+				board.dropStone(turn, i);
 				if (i == 1) {
 					setStateAfterLastDrop(turn);
 				} else {
@@ -48,13 +52,12 @@ public class GameEngine {
 	}
 
 	private void setStateAfterLastDrop(Turn turn) {
-		if (game.getBoard().canCapture(turn)) {
-			game.getBoard().captureStones(turn);
+		if (board.canCapture(turn)) {
+			board.captureStones(turn);
 		}
 		if (endOfGame()) {
-			game.getBoard().collectStonesInPits();
-			String winner = getWinner();
-			game.setWinner(winner);
+			board.collectStonesInPits();
+			game.setWinner(getWinner());
 			game.setState(GameState.FINISHED);
 		}
 		if (playerGetsNewTurn(turn)) {
@@ -63,30 +66,32 @@ public class GameEngine {
 	}
 
 	private String getWinner() {
-		int stonesPlayer1 = game.getBoard().getPits().get(BIG_PIT_PLAYER_1).getStones();
-		int stonesPlayer2 = game.getBoard().getPits().get(BIG_PIT_PLAYER_2).getStones();
-		if (stonesPlayer1 == stonesPlayer2) {
-			return "DRAW";
-		}
+		String winner;
+		int stonesPlayer1 = board.getPits().get(BIG_PIT_PLAYER_1).getStones();
+		int stonesPlayer2 = board.getPits().get(BIG_PIT_PLAYER_2).getStones();
+		
 		if (stonesPlayer1 > stonesPlayer2) {
-			return Player.PLAYER_1.toString();
+			winner = Player.PLAYER_1.toString();
 		} else {
-			return Player.PLAYER_2.toString();
+			winner = Player.PLAYER_2.toString();
 		}
+		
+		if (stonesPlayer1 == stonesPlayer2) {
+			winner = "DRAW";
+		}
+		
+		return winner;
 	}
 
 	public boolean endOfGame() {
-		long playerStones1 = game.getBoard().getStonesOfPlayer(Player.PLAYER_1);
-		long playerStones2 = game.getBoard().getStonesOfPlayer(Player.PLAYER_2);
-		if (playerStones1 == 0 || playerStones2 == 0) {
-			return true;
-		}
-		return false;
+		long playerStones1 = board.getStonesOfPlayer(Player.PLAYER_1);
+		long playerStones2 = board.getStonesOfPlayer(Player.PLAYER_2);
+		return playerStones1 == 0 || playerStones2 == 0;
 	}
 
 	private boolean playerGetsNewTurn(Turn turn) {
 		int pitId = turn.getPit().getId();
-		return !game.getBoard().isRegularPit(pitId) && game.getBoard().isPLayersPit(turn);
+		return !board.isRegularPit(pitId) && board.isPLayersPit(turn);
 	}
 
 	public Turn moveTurnToNextPit(Turn turn) {
@@ -94,14 +99,14 @@ public class GameEngine {
 		if (nextPit == 14) {
 			nextPit = 0;
 		}
-		turn.setPit(game.getBoard().getPits().get(nextPit));
-		if (game.getBoard().isOponentBigPit(turn)) {
+		turn.setPit(board.getPits().get(nextPit));
+		if (board.isOponentBigPit(turn)) {
 			if (turn.getPit().getId() == 13) {
 				nextPit = 0;
 			} else {
 				nextPit = turn.getPit().getId() + 1;
 			}
-			turn.setPit(game.getBoard().getPits().get(nextPit));
+			turn.setPit(board.getPits().get(nextPit));
 		}
 		return turn;
 	}
@@ -115,10 +120,8 @@ public class GameEngine {
 	}
 
 	public boolean gameStateAllowsRegistration() {
-		if (game.getState().equals(GameState.READY) || game.getState().equals(GameState.RESTARTED)) {
-			return true;
-		}
-		return false;
+		return game.getState().equals(GameState.READY) || game.getState().equals(GameState.RESTARTED);
+			
 	}
 
 	public void registerPlayer(String playerId)
@@ -134,13 +137,13 @@ public class GameEngine {
 	}
 
 	private void setPlayerStatus(String playerId) throws PlayerAlreadyActiveException, InvalidPlayerIdException {
-		if (playerId.equals("PLAYER_1")) {
+		if (playerId.equals(Player.PLAYER_1.toString())) {
 			if (game.isPlayer1Active()) {
 				throw new PlayerAlreadyActiveException("Player 1 is already Active");
 			} else {
 				game.setPlayer1Active(true);
 			}
-		} else if (playerId.equals("PLAYER_2")) {
+		} else if (playerId.equals(Player.PLAYER_2.toString())) {
 			if (game.isPlayer2Active()) {
 				throw new PlayerAlreadyActiveException("Player 2 is already Active");
 			} else {
@@ -149,8 +152,8 @@ public class GameEngine {
 		}
 	}
 
-	public boolean isValidPlayerId(String playerId) throws InvalidPlayerIdException {
-		if (playerId.equals("PLAYER_1") || playerId.equals("PLAYER_2")) {
+	public boolean isValidPlayerId(final String playerId) throws InvalidPlayerIdException {
+		if (playerId.equals(Player.PLAYER_1.toString()) || playerId.equals(Player.PLAYER_2.toString())) {
 			return true;
 		} else {
 			throw new InvalidPlayerIdException("Invalid Player Id");

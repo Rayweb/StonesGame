@@ -16,7 +16,7 @@ public class GameService {
 	@Autowired
 	private GameEngine gameEngine;
 
-	public GameService(GameEngine gameEngine) {
+	public GameService(final GameEngine gameEngine) {
 		this.gameEngine = gameEngine;
 	}
 	
@@ -28,11 +28,11 @@ public class GameService {
 		return this.gameEngine.getGame();
 	}
 	
-	public void playNextTurn(Turn turn){
+	public void playNextTurn(final Turn turn){
 		this.gameEngine.playNextTurn(turn);
 	}
 	
-	public void registerPlayer(String playerId) throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
+	public void registerPlayer(final String playerId) throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
 		this.gameEngine.registerPlayer(playerId);
 	}
 }

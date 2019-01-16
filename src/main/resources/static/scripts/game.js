@@ -41,7 +41,7 @@ function setInitialUI() {
 
 function updatePits(pits){
 	$.each(pits, function(i, pit) {
-		if (pit.stones != 0) {
+		if (pit.stones !== 0) {
 			$('#pit' + pit.id).text(pit.stones)
 		} else {
 			$('#pit' + pit.id).text("");
@@ -96,7 +96,7 @@ $(document).on("click", ".selectable", function(e) {
 });
 
 $(document).on("click", ".btn-play", function(e) {
-	player = $(e.target).data("player");
+	var player = $(e.target).data("player");
 	var url = "/register/player/" + player;
 	$.ajax({
 		url : url,
