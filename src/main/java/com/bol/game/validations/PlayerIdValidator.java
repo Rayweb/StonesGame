@@ -12,9 +12,6 @@ public class PlayerIdValidator implements ConstraintValidator<PlayerId, String> 
  
     @Override
     public boolean isValid(String playerId, ConstraintValidatorContext cxt) {
-    	if (playerId.equals(Player.PLAYER_1.toString()) || playerId.equals(Player.PLAYER_2.toString())) {
-    		return true;
-    	}
-    	return false;
+    	return playerId.equals(Player.PLAYER_1.toString()) || playerId.equals(Player.PLAYER_2.toString());
     }
 }
