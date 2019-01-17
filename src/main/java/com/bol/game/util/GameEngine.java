@@ -16,6 +16,8 @@ public class GameEngine {
 
 	private static final int BIG_PIT_PLAYER_1 = 6;
 	private static final int BIG_PIT_PLAYER_2 = 13;
+	private static final String PLAYER_1 = Player.PLAYER_1.toString();
+	private static final String PLAYER_2 = Player.PLAYER_2.toString();
 
 	private Game game;
 	private Board board;
@@ -71,9 +73,9 @@ public class GameEngine {
 		int stonesPlayer2 = board.getPits().get(BIG_PIT_PLAYER_2).getStones();
 		
 		if (stonesPlayer1 > stonesPlayer2) {
-			winner = Player.PLAYER_1.toString();
+			winner = PLAYER_1;
 		} else {
-			winner = Player.PLAYER_2.toString();
+			winner = PLAYER_2;
 		}
 		
 		if (stonesPlayer1 == stonesPlayer2) {
@@ -84,13 +86,13 @@ public class GameEngine {
 	}
 
 	public boolean endOfGame() {
-		long playerStones1 = board.getStonesOfPlayer(Player.PLAYER_1);
-		long playerStones2 = board.getStonesOfPlayer(Player.PLAYER_2);
+		final long playerStones1 = board.getStonesOfPlayer(Player.PLAYER_1);
+		final long playerStones2 = board.getStonesOfPlayer(Player.PLAYER_2);
 		return playerStones1 == 0 || playerStones2 == 0;
 	}
 
 	private boolean playerGetsNewTurn(Turn turn) {
-		int pitId = turn.getPit().getId();
+		final int pitId = turn.getPit().getId();
 		return !board.isRegularPit(pitId) && board.isPLayersPit(turn);
 	}
 
@@ -137,13 +139,13 @@ public class GameEngine {
 	}
 
 	private void setPlayerStatus(String playerId) throws PlayerAlreadyActiveException, InvalidPlayerIdException {
-		if (playerId.equals(Player.PLAYER_1.toString())) {
+		if (playerId.equals(PLAYER_1)) {
 			if (game.isPlayer1Active()) {
 				throw new PlayerAlreadyActiveException("Player 1 is already Active");
 			} else {
 				game.setPlayer1Active(true);
 			}
-		} else if (playerId.equals(Player.PLAYER_2.toString())) {
+		} else if (playerId.equals(PLAYER_2)) {
 			if (game.isPlayer2Active()) {
 				throw new PlayerAlreadyActiveException("Player 2 is already Active");
 			} else {
@@ -153,7 +155,7 @@ public class GameEngine {
 	}
 
 	public boolean isValidPlayerId(final String playerId) throws InvalidPlayerIdException {
-		if (playerId.equals(Player.PLAYER_1.toString()) || playerId.equals(Player.PLAYER_2.toString())) {
+		if (playerId.equals(PLAYER_1) || playerId.equals(PLAYER_2)) {
 			return true;
 		} else {
 			throw new InvalidPlayerIdException("Invalid Player Id");
