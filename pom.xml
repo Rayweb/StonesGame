@@ -9,7 +9,7 @@
 		<version>2.0.0.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.bol</groupId>
+	<groupId>com.rayweb</groupId>
 	<artifactId>StonesGame</artifactId>
 	<version>1.0</version>
 	<name>StonesGame</name>
@@ -90,7 +90,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>1.0.0</version>
 				<configuration>
-					<imageName>bol/stonesgame</imageName>
+					<imageName>rayweb/stonesgame</imageName>
 					<dockerDirectory>src/main/docker</dockerDirectory>
 					<resources>
 						<resource>

@@ -1,6 +1,6 @@
 # StonesGame [![Build Status](https://api.travis-ci.org/Rayweb/StonesGame.png?branch=master)](https://travis-ci.org/Rayweb/StonesGame) [![codecov](https://codecov.io/gh/Rayweb/StonesGame/branch/master/graph/badge.svg)](https://codecov.io/gh/Rayweb/StonesGame)[![Maintainability](https://api.codeclimate.com/v1/badges/6c452118dad5c8e5266a/maintainability)](https://codeclimate.com/github/Rayweb/StonesGame/maintainability)![Heroku](https://heroku-badge.herokuapp.com/?app=stones-game-java)
 
-Bol Stones Game in Java using Spring boot 
+Stones Game in Java using Spring boot 
 
 ## Board Setup
 Each of the two players has his six pits in front of him. To the right of the six pits, each player has a larger pit. In each of the six round pits are put six stones when the game starts.
@@ -45,11 +45,11 @@ Maven 3.+
 It should create a docker image, to verify this run :
 
     docker image ls
-you should see an image named `bol/stonesgame`
+you should see an image named `rayweb/stonesgame`
 
 Fire a container with the following command
 
-    docker run -it -p 8080:8080 bol/stonesgame
+    docker run -it -p 8080:8080 rayweb/stonesgame
 You should be able to see the board at http://localhost:8080/
 
 
