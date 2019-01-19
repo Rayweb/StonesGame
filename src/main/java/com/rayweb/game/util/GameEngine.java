@@ -21,7 +21,7 @@ public class GameEngine {
 
 	private Game game;
 	private Board board;
-   
+
 	public GameEngine() {
 		game = GameFactory.newGame();
 		board = game.getBoard();
@@ -30,7 +30,7 @@ public class GameEngine {
 	public Game getGame() {
 		return this.game;
 	}
-	
+
 	public void resetGame() {
 		game = GameFactory.newGame();
 		board = game.getBoard();
@@ -42,13 +42,17 @@ public class GameEngine {
 			setNextTurn(turn.getPlayer());
 			int stonesInHand = board.takeStones(turn.getPit().getId());
 			turn = moveTurnToNextPit(turn);
-			for (int i = stonesInHand; i > 0; i--) {
-				board.dropStone(turn, i);
-				if (i == 1) {
-					setStateAfterLastDrop(turn);
-				} else {
-					turn = moveTurnToNextPit(turn);
-				}
+			dropStrones(turn, stonesInHand);
+		}
+	}
+
+	public void dropStrones(Turn turn, int stonesInHand) {
+		for (int i = stonesInHand; i > 0; i--) {
+			board.dropStone(turn, i);
+			if (i == 1) {
+				setStateAfterLastDrop(turn);
+			} else {
+				turn = moveTurnToNextPit(turn);
 			}
 		}
 	}
@@ -71,17 +75,17 @@ public class GameEngine {
 		String winner;
 		int stonesPlayer1 = board.getPits().get(BIG_PIT_PLAYER_1).getStones();
 		int stonesPlayer2 = board.getPits().get(BIG_PIT_PLAYER_2).getStones();
-		
+
 		if (stonesPlayer1 > stonesPlayer2) {
 			winner = PLAYER_1;
 		} else {
 			winner = PLAYER_2;
 		}
-		
+
 		if (stonesPlayer1 == stonesPlayer2) {
 			winner = "DRAW";
 		}
-		
+
 		return winner;
 	}
 
@@ -123,7 +127,7 @@ public class GameEngine {
 
 	public boolean gameStateAllowsRegistration() {
 		return game.getState().equals(GameState.READY) || game.getState().equals(GameState.RESTARTED);
-			
+
 	}
 
 	public void registerPlayer(String playerId)
