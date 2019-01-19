@@ -1,20 +1,21 @@
 function setUIelements(player) {
 	switch (player) {
 	case "PLAYER_1":
-		$(".PLAYER_1").addClass("selectable");
-		$('.btn-playPit[data-player="PLAYER_1"]').prop('disabled', false);
-		$('.PLAYER_2').css("pointer-events", "none");
-		$('.PLAYER_1').css("pointer-events", "auto");
+		setUIforPlayer("PLAYER_1", "PLAYER_2");
 		break;
 	case "PLAYER_2":
-		$(".PLAYER_2").addClass("selectable");
-		$('.btn-playPit[data-player="PLAYER_2"]').prop('disabled', false);
-		$('.PLAYER_1').css("pointer-events", "none");
-		$('.PLAYER_2').css("pointer-events", "auto");
+		setUIforPlayer("PLAYER_2", "PLAYER_1");
 		break;
 	default:
 		console.log("something when wrong here");
 	}
+}
+
+function setUIforPlayer(player,opositePlayer){
+	$("."+ player).addClass("selectable");
+	$('.btn-playPit[data-player="' + player + '"]').prop('disabled', false);
+	$("."+ opositePlayer).css("pointer-events", "none");
+	$("."+ player).css("pointer-events", "auto");
 }
 
 function disableUI() {
