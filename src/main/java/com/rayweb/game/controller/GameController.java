@@ -9,7 +9,6 @@ import javax.validation.constraints.Min;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,8 +34,11 @@ public class GameController {
 
 	Logger logger = LoggerFactory.getLogger(GameController.class);
 
-	@Autowired
-	GameService gameService;
+	private GameService gameService;
+	
+	public GameController(GameService gameService) {
+		this.gameService = gameService;
+	}
 
 	private List<SseEmitter> sseEmitters = Collections.synchronizedList(new ArrayList<>());
 
