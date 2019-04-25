@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import com.rayweb.game.domain.Player;
 
-public class PlayerIdValidator implements ConstraintValidator<PlayerId, String> {
+class PlayerIdValidator implements ConstraintValidator<PlayerId, String> {
     @Override
     public void initialize(PlayerId playerId) {
     }

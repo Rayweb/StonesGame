@@ -15,12 +15,12 @@ import com.rayweb.game.util.GameEngine;
 
 public class GameEngine_PlayNextTurnTests {
 
-	public GameEngine gameEngine;
+	private GameEngine gameEngine;
 
-	public Pit regularPitPlayer1;
-	public Pit largePitPlayer1;
-	public Pit regularPitPlayer2;
-	public Pit largePitPlayer2;
+	private Pit regularPitPlayer1;
+	private Pit largePitPlayer1;
+	private Pit regularPitPlayer2;
+	private Pit largePitPlayer2;
 
 	@Before
 	public void init() {

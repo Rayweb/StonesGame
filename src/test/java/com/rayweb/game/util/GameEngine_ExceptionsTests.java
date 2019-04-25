@@ -14,7 +14,7 @@ import com.rayweb.game.util.GameEngine;
 
 public class GameEngine_ExceptionsTests {
 
-	public GameEngine gameEngine;
+	private GameEngine gameEngine;
 
 	@Before
 	public void init() {

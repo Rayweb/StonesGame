@@ -46,9 +46,9 @@ public class GameEngine {
 		}
 	}
 
-	public void dropStrones(Turn turn, int stonesInHand) {
+	private void dropStrones(Turn turn, int stonesInHand) {
 		for (int i = stonesInHand; i > 0; i--) {
-			board.dropStone(turn, i);
+			board.dropStone(turn);
 			if (i == 1) {
 				setStateAfterLastDrop(turn);
 			} else {
@@ -100,7 +100,7 @@ public class GameEngine {
 		return !board.isRegularPit(pitId) && board.isPLayersPit(turn);
 	}
 
-	public Turn moveTurnToNextPit(Turn turn) {
+	private Turn moveTurnToNextPit(Turn turn) {
 		int nextPit = turn.getPit().getId() + 1;
 		if (nextPit == 14) {
 			nextPit = 0;
@@ -117,7 +117,7 @@ public class GameEngine {
 		return turn;
 	}
 
-	public void setNextTurn(Player player) {
+	private void setNextTurn(Player player) {
 		if (player.equals(Player.PLAYER_1)) {
 			this.game.setNextTurn(Player.PLAYER_2);
 		} else {
@@ -142,7 +142,7 @@ public class GameEngine {
 		}
 	}
 
-	private void setPlayerStatus(String playerId) throws PlayerAlreadyActiveException, InvalidPlayerIdException {
+	private void setPlayerStatus(String playerId) throws PlayerAlreadyActiveException {
 		if (playerId.equals(PLAYER_1)) {
 			if (game.isPlayer1Active()) {
 				throw new PlayerAlreadyActiveException("Player 1 is already Active");
@@ -158,7 +158,7 @@ public class GameEngine {
 		}
 	}
 
-	public boolean isValidPlayerId(final String playerId) throws InvalidPlayerIdException {
+	private boolean isValidPlayerId(final String playerId) throws InvalidPlayerIdException {
 		if (playerId.equals(PLAYER_1) || playerId.equals(PLAYER_2)) {
 			return true;
 		} else {
@@ -166,7 +166,7 @@ public class GameEngine {
 		}
 	}
 
-	public void setGameStateAfterRegistration() {
+	private void setGameStateAfterRegistration() {
 		if (game.isPlayer1Active() && game.isPlayer2Active()) {
 			game.setState(GameState.STARTED);
 		} else if (game.isPlayer1Active() || game.isPlayer2Active()) {

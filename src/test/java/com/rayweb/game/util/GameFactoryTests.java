@@ -24,13 +24,13 @@ public class GameFactoryTests {
 
 	@Test
 	public void whenNewGameIsCreated_Player1IsnotActive() {
-		Game game = GameFactory.newGame();;
+		Game game = GameFactory.newGame();
 		assertThat(game.isPlayer1Active()).isFalse();
 	}
 	
 	@Test
 	public void whenNewGameIsCreated_Player2IsnotActive() {
-		Game game = GameFactory.newGame();;
+		Game game = GameFactory.newGame();
 		assertThat(game.isPlayer2Active()).isFalse();
 	}
 	

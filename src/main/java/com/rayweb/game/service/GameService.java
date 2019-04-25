@@ -12,7 +12,7 @@ import com.rayweb.game.util.GameEngine;
 @Service
 public class GameService {
 	
-	private GameEngine gameEngine;
+	private final GameEngine gameEngine;
 
 	public GameService(final GameEngine gameEngine) {
 		this.gameEngine = gameEngine;

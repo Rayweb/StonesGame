@@ -1,25 +1,16 @@
 package com.rayweb.game.util;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
-
+import com.rayweb.game.domain.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.rayweb.game.domain.GameState;
-import com.rayweb.game.domain.Pit;
-import com.rayweb.game.domain.PitType;
-import com.rayweb.game.domain.Player;
-import com.rayweb.game.domain.Turn;
-import com.rayweb.game.exception.GameStateException;
-import com.rayweb.game.exception.InvalidPlayerIdException;
-import com.rayweb.game.exception.PlayerAlreadyActiveException;
-import com.rayweb.game.util.GameEngine;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GameEngine_EndOfGameTests {
 
-	public GameEngine gameEngine;
+	private GameEngine gameEngine;
 		
 	@Before
 	public void init() {
@@ -125,7 +116,7 @@ public class GameEngine_EndOfGameTests {
 	}
 	
 	@Test
-	public void gameEnded_ShouldAllowRegistration() throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
+	public void gameEnded_ShouldAllowRegistration() {
 		Turn turn = new Turn(Player.PLAYER_1, new Pit(5, Player.PLAYER_1, 7, PitType.REGULAR, 6));
 		List<Pit> pits = gameEngine.getGame().getBoard().getPits();
 		pits.get(5).setStones(1);

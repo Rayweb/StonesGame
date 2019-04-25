@@ -16,22 +16,19 @@ import com.rayweb.game.util.GameEngine;
 
 public class BoardTests {
 	
-	public GameEngine gameEngine;
-	public Board board;
+	private GameEngine gameEngine;
+	private Board board;
 	
-	public Pit regularPitPlayer1;
-	public Pit largePitPlayer1;
-	public Pit regularPitPlayer2;
-	public Pit largePitPlayer2;
-	
+	private Pit regularPitPlayer1;
+
 	@Before
 	public void init() {
 		gameEngine = new GameEngine();
 		board = gameEngine.getGame().getBoard();
 		regularPitPlayer1 = new Pit(0, Player.PLAYER_1, 12, PitType.REGULAR, 6);
-		largePitPlayer1 = new Pit(6, Player.PLAYER_1, 13, PitType.LARGE, 0);
-		regularPitPlayer2 = new Pit(7, Player.PLAYER_2, 5, PitType.REGULAR, 6);
-		largePitPlayer2 = new Pit(13, Player.PLAYER_2, 6, PitType.LARGE, 0);
+		Pit largePitPlayer1 = new Pit(6, Player.PLAYER_1, 13, PitType.LARGE, 0);
+		Pit regularPitPlayer2 = new Pit(7, Player.PLAYER_2, 5, PitType.REGULAR, 6);
+		Pit largePitPlayer2 = new Pit(13, Player.PLAYER_2, 6, PitType.LARGE, 0);
 	}
 	
 	@Test
@@ -46,10 +43,10 @@ public class BoardTests {
 	public void whenDropStone_PitHasOneMoreStone() {
 		Turn turn = new Turn(Player.PLAYER_1, regularPitPlayer1);
 		int oldValue = board.getPits().get(regularPitPlayer1.getId()).getStones();
-		board.dropStone(turn,5);
+		board.dropStone(turn);
 		int newValue = board.getPits().get(regularPitPlayer1.getId()).getStones();
-		assertThat(oldValue + 1).as("The stone cound increase by one").isEqualTo(newValue);
-		assertThat(oldValue).as("The stone cound increase by one").isNotEqualTo(newValue);
+		assertThat(oldValue + 1).as("The stone count increase by one").isEqualTo(newValue);
+		assertThat(oldValue).as("The stone count increase by one").isNotEqualTo(newValue);
 	}
 	
 	@Test

@@ -32,15 +32,15 @@ import com.rayweb.game.validations.PlayerId;
 @Validated
 public class GameController {
 
-	Logger logger = LoggerFactory.getLogger(GameController.class);
+	private final Logger logger = LoggerFactory.getLogger(GameController.class);
 
-	private GameService gameService;
+	private final GameService gameService;
 	
 	public GameController(GameService gameService) {
 		this.gameService = gameService;
 	}
 
-	private List<SseEmitter> sseEmitters = Collections.synchronizedList(new ArrayList<>());
+	private final List<SseEmitter> sseEmitters = Collections.synchronizedList(new ArrayList<>());
 
 	@GetMapping("/")
 	public String getboard() {
@@ -104,7 +104,7 @@ public class GameController {
 		return sseEmitter;
 	}
 
-	public void sentGame() {
+	private void sentGame() {
 		synchronized (this.sseEmitters) {
 			for (SseEmitter sseEmitter : this.sseEmitters) {
 				try {

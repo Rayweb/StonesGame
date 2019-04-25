@@ -45,7 +45,7 @@ public class Board {
 		pits.get(bigPit).setStones(stonesInBigPit);
 	}
 
-	public int getStonesLeftforPlayer(Player player) {
+	private int getStonesLeftforPlayer(Player player) {
 		int stones = 0;
 		for (Pit pit : pits) {
 			if ((pit.getOwner() == player) && pit.getType() == PitType.REGULAR) {
@@ -62,7 +62,7 @@ public class Board {
 		return stonesInHand;
 	}
 
-	public void dropStone(Turn turn, int remainingStones) {
+	public void dropStone(Turn turn) {
 		int pitId = turn.getPit().getId();
 		int stones = pits.get(pitId).getStones();
 		stones = stones + 1;
@@ -79,7 +79,7 @@ public class Board {
 		}
 	}
 
-	public void addStonesToBitPit(int capturedStones, int pitId) {
+	private void addStonesToBitPit(int capturedStones, int pitId) {
 		int stonesInBigPit = pits.get(pitId).getStones();
 		stonesInBigPit = stonesInBigPit + capturedStones;
 		pits.get(pitId).setStones(stonesInBigPit);
@@ -93,6 +93,6 @@ public class Board {
 
 	public long getStonesOfPlayer(Player player) {
 		return pits.stream().filter(pit -> pit.getType() == PitType.REGULAR).filter(pit -> pit.getOwner() == player)
-				.mapToInt(pit -> pit.getStones()).summaryStatistics().getSum();
+				.mapToInt(Pit::getStones).summaryStatistics().getSum();
 	}
 }

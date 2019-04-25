@@ -14,7 +14,7 @@ import com.rayweb.game.util.GameEngine;
 
 public class GameEngine_GameStateTests {
 
-	public GameEngine gameEngine;
+	private GameEngine gameEngine;
 	
 	@Before
 	public void init() {
@@ -51,7 +51,7 @@ public class GameEngine_GameStateTests {
 	}
 	
 	@Test
-	public void gameStateWithNoActivePlayer_ShoulBeStarted() throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
+	public void gameStateWithNoActivePlayer_ShoulBeStarted() {
 		GameState state = gameEngine.getGame().getState();
 		assertThat(state).isEqualTo(GameState.READY);
 	}
@@ -65,7 +65,7 @@ public class GameEngine_GameStateTests {
 	}
 	
 	@Test
-	public void gameStaterRestarted_ShouldAllowRegistration() throws PlayerAlreadyActiveException, InvalidPlayerIdException, GameStateException {
+	public void gameStaterRestarted_ShouldAllowRegistration() {
 		gameEngine.resetGame();
 		boolean allowsResitration = gameEngine.gameStateAllowsRegistration();
 		assertThat(allowsResitration).isTrue();
