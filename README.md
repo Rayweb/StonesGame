@@ -15,9 +15,9 @@ The player who begins with the first move picks up all the stones in anyone of h
 The game is over as soon as one of the sides run out of stones. The player who still has stones in his pits keeps them and puts them in his/hers big pit. Winner of the game is the player who has the most stones in his big pit.
 
 ## Demo
-![](fullgame1.gif)
+![](fullgame1.gif)    
 
-##  Prerequisites :
+##  Prerequisites 
 Java 8
 Maven 3.+
 
