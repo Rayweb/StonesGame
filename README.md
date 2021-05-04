@@ -17,7 +17,7 @@ The game is over as soon as one of the sides run out of stones. The player who s
 ## Demo
 ![](fullgame1.gif)    
 
-##  Prerequisites 
+##  Prerequisites :
 Java 8
 Maven 3.+
 
